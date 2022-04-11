@@ -1,0 +1,34 @@
+.tui-full-calendar-popup-container .tui-full-calendar-popup-section {
+  display: flex;
+}
+
+.tui-full-calendar-popup-section .tui-full-calendar-popup-section-item {
+  display: flex;
+  align-items: center;
+}
+
+.tui-full-calendar-popup-detail
+  .tui-full-calendar-popup-container
+  .tui-full-calendar-popup-section {
+  flex-direction: column;
+}
+
+.tui-full-calendar-section-button .tui-full-calendar-icon {
+  top: 0;
+}
+
+.tui-full-calendar-time-guide-bottom {
+  display: flex;
+}
+
+.tui-full-calendar-section-date-dash {
+  padding: 0 2px;
+}
+
+.tui-full-calendar-time-schedule-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  padding: 0;
+}
