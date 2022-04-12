@@ -1,1 +1,1 @@
-export { default } from "./NewsFormik";
+export * from "./NewsFormik";

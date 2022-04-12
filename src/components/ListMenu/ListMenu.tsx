@@ -1,71 +1,62 @@
-import React from "react";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import Cookies from "js-cookie";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import EventAvailableIcon from "@material-ui/icons/EventAvailable";
-import VideocamIcon from "@material-ui/icons/Videocam";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import FeedbackIcon from "@material-ui/icons/Feedback";
 import {
-  InfoOutlined,
-  // Settings,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  styled,
+} from "@mui/material";
+import {
+  EventAvailable,
+  ExitToApp,
+  Feedback,
+  Info,
   Lock,
-  // PowerSettingsNew,
   SupervisorAccount,
-} from "@material-ui/icons";
-import { Link, useHistory } from "react-router-dom";
+} from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserData } from "../../contexts/userContext";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: "100%",
-      maxWidth: 360,
-      backgroundColor: theme.palette.background.paper,
-    },
-    link: {
-      color: "#ffc000",
-      textDecoration: "none",
-    },
-    listItem: {
-      borderBottom: "2px solid #d3d3d3",
-    },
-  })
-);
+const RootContainer = styled("div")(({ theme }) => ({
+  width: "100%",
+  maxWidth: 360,
+  backgroundColor: theme.palette.background.paper,
+}));
 
-const ListMenu = () => {
-  const classes = useStyles();
+const StyledLink = styled(Link)(({ theme }) => ({
+  color: "#ffc000",
+  textDecoration: "none",
+}));
+
+export const ListMenu = () => {
   const userStore = useUserData().context.userData;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const logOutUser = () => {
     Cookies.remove("token");
-    history.push("/");
+    navigate("/");
   };
 
   const admin = userStore.data?.role === "admin";
   return (
-    <div className={classes.root}>
+    <RootContainer>
       <List component="nav" aria-label="main">
-        <Link className={classes.link} to="/profile/news">
-          <ListItem classes={{ root: classes.listItem }} button>
+        <StyledLink to="/profile/news">
+          <ListItem button>
             <ListItemIcon>
-              <FeedbackIcon />
+              <Feedback />
             </ListItemIcon>
             <ListItemText primary="Novinky" />
           </ListItem>
-        </Link>
-        <Link className={classes.link} to="/profile/info">
-          <ListItem classes={{ root: classes.listItem }} button>
+        </StyledLink>
+        <StyledLink to="/profile/info">
+          <ListItem button>
             <ListItemIcon>
-              <InfoOutlined />
+              <Info />
             </ListItemIcon>
             <ListItemText primary="Profil" />
           </ListItem>
-        </Link>
+        </StyledLink>
         {/* <Link className={classes.link} to="/profile/settings">
           <ListItem button>
             <ListItemIcon>
@@ -74,45 +65,43 @@ const ListMenu = () => {
             <ListItemText primary="Nastavení" />
           </ListItem>
         </Link> */}
-        <Link className={classes.link} to="/profile/changePassword">
-          <ListItem classes={{ root: classes.listItem }} button>
+        <StyledLink to="/profile/changePassword">
+          <ListItem button>
             <ListItemIcon>
               <Lock />
             </ListItemIcon>
             <ListItemText primary="Změna hesla" />
           </ListItem>
-        </Link>
-        <Link className={classes.link} to="/profile/calendar">
-          <ListItem classes={{ root: classes.listItem }} button>
+        </StyledLink>
+        <StyledLink to="/profile/calendar">
+          <ListItem button>
             <ListItemIcon>
-              <EventAvailableIcon />
+              <EventAvailable />
             </ListItemIcon>
             <ListItemText primary="Můj kalendář" />
           </ListItem>
-        </Link>
+        </StyledLink>
         {admin && (
           <>
-            <Link className={classes.link} to="/profile/admin">
-              <ListItem classes={{ root: classes.listItem }} button>
+            <StyledLink to="/profile/admin">
+              <ListItem button>
                 <ListItemIcon>
                   <SupervisorAccount />
                 </ListItemIcon>
                 <ListItemText primary="Správa aplikace" />
               </ListItem>
-            </Link>
+            </StyledLink>
           </>
         )}
-        <div className={classes.link} onClick={() => logOutUser()}>
-          <ListItem classes={{ root: classes.listItem }} button>
+        <div onClick={() => logOutUser()}>
+          <ListItem button>
             <ListItemIcon>
-              <ExitToAppIcon />
+              <ExitToApp />
             </ListItemIcon>
             <ListItemText primary="Odhlášení" />
           </ListItem>
         </div>
       </List>
-    </div>
+    </RootContainer>
   );
 };
-
-export default ListMenu;

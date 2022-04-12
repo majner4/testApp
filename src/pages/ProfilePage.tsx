@@ -10,17 +10,12 @@ import {
   IconButton,
   CardContent,
   CardActions,
-} from "@material-ui/core";
-import { Route, Switch } from "react-router-dom";
+} from "@mui/material";
+import { Route, Routes } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import PublishIcon from "@material-ui/icons/Publish";
-import EditIcon from "@material-ui/icons/Edit";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import UserInfoFormik from "../components/Forms/UserInfoFormik";
+import { Publish, Edit, Favorite, Share, MoreVert } from "@mui/icons-material";
+import { UserInfoFormik, NewsFormik } from "../components/Forms";
 import { getUserDataByToken } from "../services/userAPI";
 import { getUserInfo } from "../services/userInfoAPI";
 import { getUserNews } from "../services/userNewsAPI";
@@ -28,15 +23,13 @@ import {
   uploadProfileImage,
   updateProfileImage,
 } from "../services/uploadFileApi";
-import Settings from "../components/Settings";
-import ChangePassword from "../components/ChangePassword";
+import { Settings } from "../components/Settings";
+import { ChangePassword } from "../components/ChangePassword";
 import { useUserData } from "../contexts/userContext";
-import AdminSection from "../components/AdminSection";
-import ProfileAvatar from "../components/Avatar";
-import Sidebar from "../components/Sidebar";
-import UserCalendar from "../components/UserCalendar";
-import News from "../components/News";
-import NewsFormik from "../components/Forms/NewsFormik";
+import { AdminSection } from "../components/AdminSection";
+import { ProfileAvatar } from "../components/Avatar";
+import { Sidebar } from "../components/Sidebar";
+import { News } from "../components/News";
 import { IFUserNews } from "../types/FormTypes";
 import moment from "moment";
 
@@ -47,76 +40,7 @@ export interface IFUserData {
   role?: string;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      height: "100%",
-      flexGrow: 1,
-    },
-    container: {
-      height: "calc(100% - 56px)",
-    },
-    paper: {
-      display: "flex",
-      height: "100%",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: theme.spacing(2),
-      margin: theme.spacing(2),
-      marginBottom: 0,
-      textAlign: "center",
-      color: theme.palette.text.secondary,
-    },
-    button: {
-      margin: theme.spacing(3, 0, 2),
-      backgroundColor: "#ffc000",
-      color: "#000",
-      "&:hover, &:focus": {
-        backgroundColor: "#ebb100",
-      },
-    },
-    iconMargin: {
-      marginRight: "10px",
-    },
-    label: {
-      marginBottom: "25px",
-    },
-    profileHeader: {
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      borderBottom: "2px solid #d3d3d3",
-    },
-    profileInfo: {
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      borderBottom: "2px solid #d3d3d3",
-      marginTop: "25px",
-    },
-    profileNews: {
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: "25px",
-    },
-    avatar: {
-      width: "60px",
-      height: "60px",
-      fontSize: "0.8rem",
-      backgroundColor: "#000",
-    },
-  })
-);
-
-const ProfilePage = () => {
-  const classes = useStyles();
+export const ProfilePage = () => {
   const userStore = useUserData().context.userData;
   const userInfoStore = useUserData().context.userInfoData;
   const [updateForm, setUpdateForm] = useState(false);
@@ -175,12 +99,7 @@ const ProfilePage = () => {
         <Typography variant="body1" align="left" color="textPrimary">
           Věk: {userInfoStore.infoData?.age}
         </Typography>
-        <Button
-          classes={{ root: classes.button }}
-          onClick={() => setUpdateForm(true)}
-        >
-          Upravit
-        </Button>
+        <Button onClick={() => setUpdateForm(true)}>Upravit</Button>
       </Grid>
     );
   };
@@ -225,14 +144,10 @@ const ProfilePage = () => {
           <Grid item>
             <Card key={index}>
               <CardHeader
-                avatar={
-                  <Avatar aria-label="recipe" className={classes.avatar}>
-                    {item.authorNews}
-                  </Avatar>
-                }
+                avatar={<Avatar aria-label="recipe">{item.authorNews}</Avatar>}
                 action={
                   <IconButton aria-label="settings">
-                    <MoreVertIcon />
+                    <MoreVert />
                   </IconButton>
                 }
                 title={item.titleNews}
@@ -250,10 +165,10 @@ const ProfilePage = () => {
               </CardContent>
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
+                  <Favorite />
                 </IconButton>
                 <IconButton aria-label="share">
-                  <ShareIcon />
+                  <Share />
                 </IconButton>
               </CardActions>
             </Card>
@@ -274,7 +189,7 @@ const ProfilePage = () => {
   const UserInfo = () => {
     return (
       <>
-        <div className={classes.profileHeader}>
+        <div>
           <ProfileAvatar
             email={userStore.data?.email}
             image={userInfoStore.infoData?.imageUrl}
@@ -291,18 +206,14 @@ const ProfilePage = () => {
             type="file"
             onChange={(e) => handleUploadImage(e)}
           />
-          <label className={classes.label} htmlFor="avatar-image-upload">
+          <label htmlFor="avatar-image-upload">
             <Button variant="contained" color="primary" component="span">
-              {userInfoStore.infoData?.imageUrl ? (
-                <EditIcon className={classes.iconMargin} />
-              ) : (
-                <PublishIcon className={classes.iconMargin} />
-              )}
+              {userInfoStore.infoData?.imageUrl ? <Edit /> : <Publish />}
               {userInfoStore.infoData?.imageUrl ? "Změnit" : "Nahrát"}
             </Button>
           </label>
         </div>
-        <div className={classes.profileInfo}>
+        <div>
           <Typography variant="h4" align="center" color="textPrimary">
             Osobní informace
           </Typography>
@@ -310,7 +221,7 @@ const ProfilePage = () => {
             ? renderUserData()
             : renderUserFormik()}
         </div>
-        <div className={classes.profileNews}>
+        <div>
           <Typography variant="h4" align="center" color="textPrimary">
             Moje příspěvky
           </Typography>
@@ -324,7 +235,7 @@ const ProfilePage = () => {
               })
             }
           />
-          <Grid container justify="center" spacing={2}>
+          <Grid container spacing={2}>
             {renderMyNewsItem(myNews)}
           </Grid>
         </div>
@@ -336,25 +247,24 @@ const ProfilePage = () => {
     const admin = userStore.data?.role === "admin";
 
     return (
-      <Switch>
-        <Route path="/profile/info" component={UserInfo} />
-        <Route path="/profile/settings" component={Settings} />
-        <Route path="/profile/changePassword" component={ChangePassword} />
-        <Route path="/profile/calendar" component={UserCalendar} />
-        <Route path="/profile/news" component={News} />
-        {admin && <Route path="/profile/admin" component={AdminSection} />}
-      </Switch>
+      <Routes>
+        <Route path="/profile/info" element={<UserInfo />} />
+        <Route path="/profile/settings" element={<Settings />} />
+        <Route path="/profile/changePassword" element={<ChangePassword />} />
+        <Route path="/profile/news" element={<News />} />
+        {admin && <Route path="/profile/admin" element={<AdminSection />} />}
+      </Routes>
     );
   };
   return (
-    <div className={classes.root}>
+    <div>
       <Sidebar
         userEmail={userStore.data?.email}
         userImage={userInfoStore.infoData?.imageUrl}
       >
-        <Grid className={classes.container} container>
+        <Grid container>
           <Grid item xs={12}>
-            <Paper className={classes.paper}>{renderProfileRoutes()}</Paper>
+            <Paper>{renderProfileRoutes()}</Paper>
             {/* <div>
               <Button
             </div> */}
@@ -364,5 +274,3 @@ const ProfilePage = () => {
     </div>
   );
 };
-
-export default ProfilePage;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import { Button, LinearProgress, Typography } from "@material-ui/core";
+import { Button, LinearProgress, styled, Typography } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import Cookies from "js-cookie";
@@ -13,36 +12,34 @@ interface IFChangePassword {
   confirmNewPassword: string;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: "100%",
-      maxWidth: 500,
-      backgroundColor: theme.palette.background.paper,
-    },
-    paper: {
-      margin: theme.spacing(8, 4),
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    form: {
-      width: "100%", // Fix IE 11 issue.
-      marginTop: theme.spacing(1),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-      backgroundColor: "#ffc000",
-      color: "#000",
-      "&:hover, &:focus": {
-        backgroundColor: "#ebb100",
-      },
-    },
-  })
-);
+const RootContainer = styled("div")(({ theme }) => ({
+  width: "100%",
+  maxWidth: 500,
+  backgroundColor: theme.palette.background.paper,
+}));
 
-const ChangePassword = () => {
-  const classes = useStyles();
+const StyledPaper = styled("div")(({ theme }) => ({
+  margin: theme.spacing(8, 4),
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+}));
+
+const StyledForm = styled(Form)(({ theme }) => ({
+  width: "100%", // Fix IE 11 issue.
+  marginTop: theme.spacing(1),
+}));
+
+const SubmitButon = styled(Button)(({ theme }) => ({
+  margin: theme.spacing(3, 0, 2),
+  backgroundColor: "#ffc000",
+  color: "#000",
+  "&:hover, &:focus": {
+    backgroundColor: "#ebb100",
+  },
+}));
+
+export const ChangePassword = () => {
   const [userData, setUserData] = useState();
   const { enqueueSnackbar } = useSnackbar();
   const token = Cookies.get("token");
@@ -75,8 +72,8 @@ const ChangePassword = () => {
   }, []);
 
   return (
-    <div className={classes.root}>
-      <div className={classes.paper}>
+    <RootContainer>
+      <StyledPaper>
         <Typography variant="h4" align="center" color="textPrimary">
           Změna hesla
         </Typography>
@@ -111,7 +108,7 @@ const ChangePassword = () => {
           }}
         >
           {({ submitForm, isSubmitting }) => (
-            <Form className={classes.form}>
+            <StyledForm>
               <Field
                 component={TextField}
                 variant="outlined"
@@ -148,23 +145,20 @@ const ChangePassword = () => {
                 id="confirmNewPassword"
               />
               {isSubmitting && <LinearProgress />}
-              <Button
+              <SubmitButon
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
-                className={classes.submit}
                 disabled={isSubmitting}
                 onClick={submitForm}
               >
                 Změnit heslo
-              </Button>
-            </Form>
+              </SubmitButon>
+            </StyledForm>
           )}
         </Formik>
-      </div>
-    </div>
+      </StyledPaper>
+    </RootContainer>
   );
 };
-
-export default ChangePassword;

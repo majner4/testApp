@@ -1,5 +1,4 @@
 import React, { useContext, createContext, useState } from "react";
-import { ISchedule } from "tui-calendar";
 import { IFUserData } from "../pages/ProfilePage";
 import { IFUserInfoFormValues, IFUserNews } from "../types/FormTypes";
 
@@ -8,10 +7,6 @@ export const userDataContext = createContext<{
   userInfoData: {
     infoData?: IFUserInfoFormValues;
     setUserInfoData: (infoData: IFUserInfoFormValues) => void;
-  };
-  userEvents: {
-    events?: ISchedule[];
-    setEvents: (events: ISchedule[]) => void;
   };
   userNews: {
     news?: IFUserNews[];
@@ -24,18 +19,14 @@ export const userDataContext = createContext<{
   userInfoData: {
     setUserInfoData: () => {},
   },
-  userEvents: {
-    setEvents: () => {},
-  },
   userNews: {
     setNews: () => {},
   },
 });
-
-const UserDataProvider: React.FC = ({ children }) => {
+// @ts-ignore
+export const UserDataProvider: React.FC = ({ children }) => {
   const [data, setUserData] = useState<IFUserData>({});
   const [infoData, setUserInfoData] = useState<IFUserInfoFormValues>({});
-  const [events, setEvents] = useState<ISchedule[]>([]);
   const [news, setNews] = useState<IFUserNews[]>([]);
 
   return (
@@ -43,7 +34,6 @@ const UserDataProvider: React.FC = ({ children }) => {
       value={{
         userData: { data, setUserData },
         userInfoData: { infoData, setUserInfoData },
-        userEvents: { events, setEvents },
         userNews: { news, setNews },
       }}
     >
@@ -66,5 +56,3 @@ export const useUserData = () => {
     context: ctx,
   };
 };
-
-export default UserDataProvider;

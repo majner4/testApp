@@ -1,6 +1,4 @@
-import React from "react";
 import moment from "moment";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Checkbox,
   FormControlLabel,
@@ -12,7 +10,8 @@ import {
   Table,
   TableHead,
   Button,
-} from "@material-ui/core";
+  styled,
+} from "@mui/material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { updateUser } from "../../services/userAPI";
@@ -30,17 +29,15 @@ interface IFAdminTableProps {
   changeData: (change: boolean) => void;
 }
 
-const useStyles = makeStyles({
-  tableHeader: {
-    backgroundColor: "#ffc000",
-  },
-  table: {
-    minWidth: 500,
-  },
-});
+const StyledTableHeader = styled(TableHead)(({ theme }) => ({
+  backgroundColor: "#ffc000",
+}));
+
+const StyledTable = styled(Table)(({ theme }) => ({
+  minWidth: 500,
+}));
 
 export const AdminTable = (props: IFAdminTableProps) => {
-  const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const data = props.data;
   const changeData = props.changeData;
@@ -61,8 +58,8 @@ export const AdminTable = (props: IFAdminTableProps) => {
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="custom pagination table">
-        <TableHead classes={{ root: classes.tableHeader }}>
+      <StyledTable aria-label="custom pagination table">
+        <StyledTableHeader>
           <TableRow>
             <TableCell align="left">ID</TableCell>
             <TableCell align="left">Email</TableCell>
@@ -70,7 +67,7 @@ export const AdminTable = (props: IFAdminTableProps) => {
             <TableCell align="left">Blokace</TableCell>
             <TableCell align="left"></TableCell>
           </TableRow>
-        </TableHead>
+        </StyledTableHeader>
         <TableBody>
           {data.map((row: IFUserTableData) => (
             <TableRow key={row._id}>
@@ -118,7 +115,7 @@ export const AdminTable = (props: IFAdminTableProps) => {
             </TableRow>
           ))}
         </TableBody>
-      </Table>
+      </StyledTable>
     </TableContainer>
   );
 };

@@ -1,1 +1,2 @@
-export { default } from "./AdminSection";
+export * from "./AdminSection";
+export * from "./AdminTable";

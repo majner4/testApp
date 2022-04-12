@@ -1,89 +1,61 @@
 import React from "react";
-import clsx from "clsx";
+
 import {
-  makeStyles,
+  Drawer,
+  AppBar,
+  Toolbar,
+  IconButton,
+  styled,
   useTheme,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
-import { Drawer, AppBar, Toolbar, IconButton } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListMenu from "../ListMenu";
-import ProfileAvatar from "../Avatar";
+} from "@mui/material";
+import { Menu, ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { ListMenu } from "../ListMenu";
+import { ProfileAvatar } from "../Avatar";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: "flex",
-      height: "100%",
-    },
-    appBar: {
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      backgroundColor: "#ffc000",
-      height: "60px",
-    },
-    appBarShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    hide: {
-      display: "none",
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    drawerHeader: {
-      display: "flex",
-      alignItems: "center",
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-      justifyContent: "flex-end",
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: -drawerWidth,
-    },
-    contentShift: {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    },
-    toolbar: {
-      display: "flex",
-      justifyContent: "space-between",
-    },
-    toolbarEnd: {
-      justifyContent: "flex-end",
-    },
-  })
-);
+const RootContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+  height: "100%",
+}));
+
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  backgroundColor: "#ffc000",
+  height: "60px",
+}));
+
+const StyledToolBar = styled(Toolbar)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "space-between",
+}));
+
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+}));
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end",
+}));
+
+const StyledContent = styled("main")(({ theme }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create("margin", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: -drawerWidth,
+}));
 
 interface IFSideBarProps {
   userEmail?: string;
@@ -91,8 +63,7 @@ interface IFSideBarProps {
   children: React.ReactNode;
 }
 
-const Sidebar = (props: IFSideBarProps) => {
-  const classes = useStyles();
+export const Sidebar = (props: IFSideBarProps) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const { userEmail, userImage } = props;
@@ -106,27 +77,16 @@ const Sidebar = (props: IFSideBarProps) => {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar
-          className={clsx(classes.toolbar, {
-            [classes.toolbarEnd]: open,
-          })}
-        >
+    <RootContainer>
+      <StyledAppBar position="fixed">
+        <StyledToolBar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
           >
-            <MenuIcon />
+            <Menu />
           </IconButton>
           <IconButton
             edge="end"
@@ -136,38 +96,20 @@ const Sidebar = (props: IFSideBarProps) => {
           >
             <ProfileAvatar email={userEmail} image={userImage} />
           </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
+        </StyledToolBar>
+      </StyledAppBar>
+      <StyledDrawer variant="persistent" anchor="left" open={open}>
+        <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
-        </div>
+        </DrawerHeader>
         <ListMenu />
-      </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
-        <div className={classes.drawerHeader} />
+      </StyledDrawer>
+      <StyledContent>
+        <DrawerHeader />
         {props.children}
-      </main>
-    </div>
+      </StyledContent>
+    </RootContainer>
   );
 };
-
-export default Sidebar;

@@ -11,7 +11,7 @@ export interface IFUserInfo {
 export const getUserInfo = {
   get: async (token: string) => {
     let res = await axios.get(
-      `https://no-gamling-group-api.herokuapp.com/api/userInfo`,
+      `https://my-test-app-react-be.herokuapp.com/api/userInfo`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -23,7 +23,7 @@ export const getUserInfo = {
 export const createUserInfo = {
   create: async (data: IFUserInfoFormValues, token: string) => {
     let res = await axios.post(
-      `https://no-gamling-group-api.herokuapp.com/api/userInfo/`,
+      `https://my-test-app-react-be.herokuapp.com/api/userInfo/`,
       data,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -36,7 +36,7 @@ export const createUserInfo = {
 export const updateUserInfo = {
   update: async (data: IFUserInfoFormValues, token: string) => {
     let res = await axios.put(
-      `https://no-gamling-group-api.herokuapp.com/api/userInfo/`,
+      `https://my-test-app-react-be.herokuapp.com/api/userInfo/`,
       data,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -48,7 +48,7 @@ export const updateUserInfo = {
 
 // export const deleteUserInfo = {
 //   delete: async (data: IFUserInfo, id: string) => {
-//     let res = await axios.post(`https://no-gamling-group-api.herokuapp.com/api/user/login:${id}`, data);
+//     let res = await axios.post(`https://my-test-app-react-be.herokuapp.com/api/user/login:${id}`, data);
 //     return res.data;
 //   }
 // }

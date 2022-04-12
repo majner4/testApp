@@ -1,21 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { styled, Typography } from "@mui/material";
 import Cookies from "js-cookie";
 import { getAll } from "../../services/userAPI";
 import { AdminTable } from "./AdminTable";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: "100%",
-      backgroundColor: theme.palette.background.paper,
-    },
-  })
-);
+const RootContainer = styled("div")(({ theme }) => ({
+  width: "100%",
+  backgroundColor: theme.palette.background.paper,
+}));
 
-const AdminSection = () => {
-  const classes = useStyles();
+export const AdminSection = () => {
   const [allUsers, setAllUsers] = useState<[]>([]);
   const [updateData, setUpdateData] = useState<boolean>(false);
 
@@ -38,7 +32,7 @@ const AdminSection = () => {
   }, [updateData]);
 
   return (
-    <div className={classes.root}>
+    <RootContainer>
       <Typography variant="h4" align="center" color="textPrimary">
         Admin sekce
       </Typography>
@@ -46,8 +40,6 @@ const AdminSection = () => {
         data={allUsers}
         changeData={(change: boolean) => setUpdateData(change)}
       />
-    </div>
+    </RootContainer>
   );
 };
-
-export default AdminSection;

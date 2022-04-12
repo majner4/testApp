@@ -1,6 +1,5 @@
 import React from "react";
-import { Button, LinearProgress } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Button, LinearProgress } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import { createUserNews, updateUserNews } from "../../../services/userNewsAPI";
@@ -15,26 +14,7 @@ interface IFUserNewsFormikProps {
   handleChange: () => void;
 }
 
-const useStyles = makeStyles((theme) => ({
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    maxWidth: "300px",
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(1, 0, 2),
-    backgroundColor: "#ffc000",
-    color: "#000",
-    "&:hover, &:focus": {
-      backgroundColor: "#ebb100",
-    },
-  },
-  textArea: {
-    width: "100%",
-  },
-}));
-
-const NewsFormik = (props: IFUserNewsFormikProps) => {
+export const NewsFormik = (props: IFUserNewsFormikProps) => {
   const { userToken, formValues, handleNotification, handleChange } = props;
   const defaultValues = {
     newsDescription: "",
@@ -75,7 +55,6 @@ const NewsFormik = (props: IFUserNewsFormikProps) => {
     }
     // updatedForm(true);
   };
-  const classes = useStyles();
 
   return (
     <Formik
@@ -105,9 +84,8 @@ const NewsFormik = (props: IFUserNewsFormikProps) => {
       }}
     >
       {({ submitForm, isSubmitting }) => (
-        <Form className={classes.form}>
+        <Form>
           <Field
-            className={classes.textArea}
             component={TextField}
             variant="outlined"
             margin="normal"
@@ -118,7 +96,6 @@ const NewsFormik = (props: IFUserNewsFormikProps) => {
             name="titleNews"
           />
           <Field
-            className={classes.textArea}
             component={TextField}
             variant="outlined"
             margin="normal"
@@ -135,7 +112,6 @@ const NewsFormik = (props: IFUserNewsFormikProps) => {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
             disabled={isSubmitting}
             onClick={submitForm}
           >
@@ -146,5 +122,3 @@ const NewsFormik = (props: IFUserNewsFormikProps) => {
     </Formik>
   );
 };
-
-export default NewsFormik;

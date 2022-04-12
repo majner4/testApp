@@ -7,66 +7,20 @@ import {
   Grid,
   Paper,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { TextField } from "formik-material-ui";
-import { Link, useHistory } from "react-router-dom";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import { makeStyles } from "@material-ui/core/styles";
+import { Link, useNavigate } from "react-router-dom";
+import { PersonAdd } from "@mui/icons-material";
 import { IFRegisterFormValues } from "../types/FormTypes";
 import { createUser, loginUser, IFUser } from "../services/userAPI";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "100vh",
-  },
-  image: {
-    backgroundImage: "url(http://icoders.cz/img/intro-bg.png)",
-    backgroundRepeat: "no-repeat",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: "auto",
-    backgroundPosition: "cover",
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    width: "60px",
-    height: "60px",
-    color: "#000",
-    margin: theme.spacing(1),
-    backgroundColor: "#ffc000",
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#ffc000",
-    color: "#000",
-    "&:hover, &:focus": {
-      backgroundColor: "#ebb100",
-    },
-  },
-  link: {
-    color: "#16409f",
-  },
-}));
-
-const RegisterPage = () => {
-  const classes = useStyles();
+export const RegisterPage = () => {
   const { enqueueSnackbar } = useSnackbar();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const hanleRegister = async (data: IFUser) => {
     const register = await createUser.create(data);
@@ -81,19 +35,19 @@ const RegisterPage = () => {
       if (token && !login.error) {
         if (data) {
           Cookies.set("token", token);
-          history.push("/profile/news");
+          navigate("/profile/news");
         }
       }
     }
   };
   return (
-    <Grid container component="main" className={classes.root}>
+    <Grid container component="main">
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={false} sm={4} md={7} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <PersonAddIcon style={{ fontSize: "2rem" }} />
+        <div>
+          <Avatar>
+            <PersonAdd style={{ fontSize: "2rem" }} />
           </Avatar>
           <Typography component="h1" variant="h5">
             Registrace
@@ -133,7 +87,7 @@ const RegisterPage = () => {
             }}
           >
             {({ submitForm, isSubmitting }) => (
-              <Form className={classes.form}>
+              <Form>
                 <Field
                   component={TextField}
                   variant="outlined"
@@ -175,7 +129,6 @@ const RegisterPage = () => {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  className={classes.submit}
                   disabled={isSubmitting}
                   onClick={submitForm}
                 >
@@ -191,9 +144,7 @@ const RegisterPage = () => {
                 </Link> */}
             </Grid>
             <Grid item>
-              <Link className={classes.link} to="/login">
-                Máte účet? Přihlášení.
-              </Link>
+              <Link to="/login">Máte účet? Přihlášení.</Link>
             </Grid>
           </Grid>
         </div>
@@ -201,5 +152,3 @@ const RegisterPage = () => {
     </Grid>
   );
 };
-
-export default RegisterPage;

@@ -4,7 +4,7 @@ import { IFUserNews } from "../types/FormTypes";
 export const getUsersNews = {
   get: async (token: string) => {
     let res = await axios.get(
-      `https://no-gamling-group-api.herokuapp.com/api/usersNews`,
+      `https://my-test-app-react-be.herokuapp.com/api/usersNews`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -16,7 +16,7 @@ export const getUsersNews = {
 export const getUserNews = {
   get: async (token: string) => {
     let res = await axios.get(
-      `https://no-gamling-group-api.herokuapp.com/api/userNews`,
+      `https://my-test-app-react-be.herokuapp.com/api/userNews`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -28,7 +28,7 @@ export const getUserNews = {
 export const createUserNews = {
   create: async (data: IFUserNews, token: string) => {
     let res = await axios.post(
-      `https://no-gamling-group-api.herokuapp.com/api/userNews`,
+      `https://my-test-app-react-be.herokuapp.com/api/userNews`,
       data,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -41,7 +41,7 @@ export const createUserNews = {
 export const updateUserNews = {
   update: async (data: IFUserNews, token: string) => {
     let res = await axios.put(
-      `https://no-gamling-group-api.herokuapp.com/api/userNews`,
+      `https://my-test-app-react-be.herokuapp.com/api/userNews`,
       data,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -53,7 +53,7 @@ export const updateUserNews = {
 
 // export const deleteUserInfo = {
 //   delete: async (data: IFUserInfo, id: string) => {
-//     let res = await axios.post(`https://no-gamling-group-api.herokuapp.com/api/user/login:${id}`, data);
+//     let res = await axios.post(`https://my-test-app-react-be.herokuapp.com/api/user/login:${id}`, data);
 //     return res.data;
 //   }
 // }

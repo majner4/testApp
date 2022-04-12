@@ -16,7 +16,7 @@ export interface IFChangePassword {
 export const getAll = {
   get: async (token: string) => {
     let res = await axios.get(
-      `https://no-gamling-group-api.herokuapp.com/api/users`,
+      `https://my-test-app-react-be.herokuapp.com/api/users`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -28,7 +28,7 @@ export const getAll = {
 export const getUserDataByToken = {
   getData: async (token: string) => {
     let res = await axios.get(
-      `https://no-gamling-group-api.herokuapp.com/api/user`,
+      `https://my-test-app-react-be.herokuapp.com/api/user`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -45,7 +45,7 @@ export const createUser = {
       createdDate: new Date(),
     };
     let res = await axios.post(
-      `https://no-gamling-group-api.herokuapp.com/api/user/register`,
+      `https://my-test-app-react-be.herokuapp.com/api/user/register`,
       currentData
     );
     return res.data;
@@ -55,7 +55,7 @@ export const createUser = {
 export const loginUser = {
   login: async (data: IFUser) => {
     let res = await axios.post(
-      `https://no-gamling-group-api.herokuapp.com/api/user/login`,
+      `https://my-test-app-react-be.herokuapp.com/api/user/login`,
       data
     );
     return res.data;
@@ -65,7 +65,7 @@ export const loginUser = {
 export const updateUser = {
   update: async (data: IFUser, token: string) => {
     let res = await axios.put(
-      `https://no-gamling-group-api.herokuapp.com/api/user`,
+      `https://my-test-app-react-be.herokuapp.com/api/user`,
       data,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -78,7 +78,7 @@ export const updateUser = {
 export const updatePassword = {
   update: async (data: IFChangePassword, token: string) => {
     let res = await axios.put(
-      `https://no-gamling-group-api.herokuapp.com/api/user/changePassword`,
+      `https://my-test-app-react-be.herokuapp.com/api/user/changePassword`,
       data,
       {
         headers: { Authorization: `Bearer ${token}` },
