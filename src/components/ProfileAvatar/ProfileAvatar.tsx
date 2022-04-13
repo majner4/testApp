@@ -15,6 +15,7 @@ const RootContainer = styled("div")(({ theme }) => ({
 
 export const ProfileAvatar = (props: IFProfileAvatarProps) => {
   const { email, style, image } = props;
+  console.log(image, "test");
   const upperCasedEmail = email && email.toUpperCase();
   return (
     <RootContainer>

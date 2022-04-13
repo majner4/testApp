@@ -1,11 +1,11 @@
-import React from "react";
-import { Button, LinearProgress } from "@mui/material";
-import { Formik, Form, Field } from "formik";
+import { LinearProgress } from "@mui/material";
+import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
-import { createUserNews, updateUserNews } from "../../../services/userNewsAPI";
+import { createUserNews, updateUserNews } from "../../../services";
 import { IFUserNews } from "../../../types/FormTypes";
 import { useUserData } from "../../../contexts/userContext";
 import { IFAlert } from "../../../types/AlertTypes";
+import { StyledForm, SubmitButon } from "../../GlobalStyledComponents";
 
 interface IFUserNewsFormikProps {
   userToken?: string | null;
@@ -23,7 +23,7 @@ export const NewsFormik = (props: IFUserNewsFormikProps) => {
 
   const userInfoStore = useUserData().context.userInfoData;
   const userNewsStore = useUserData().context.userNews;
-
+  console.log(userInfoStore.infoData, "kjf");
   const initialValues = formValues ?? defaultValues;
   const handleSubmitUserNewsData = async (data: IFUserNews) => {
     const currentData = {
@@ -84,7 +84,7 @@ export const NewsFormik = (props: IFUserNewsFormikProps) => {
       }}
     >
       {({ submitForm, isSubmitting }) => (
-        <Form>
+        <StyledForm>
           <Field
             component={TextField}
             variant="outlined"
@@ -107,7 +107,7 @@ export const NewsFormik = (props: IFUserNewsFormikProps) => {
           />
 
           {isSubmitting && <LinearProgress />}
-          <Button
+          <SubmitButon
             type="submit"
             fullWidth
             variant="contained"
@@ -116,8 +116,8 @@ export const NewsFormik = (props: IFUserNewsFormikProps) => {
             onClick={submitForm}
           >
             Přidat
-          </Button>
-        </Form>
+          </SubmitButon>
+        </StyledForm>
       )}
     </Formik>
   );

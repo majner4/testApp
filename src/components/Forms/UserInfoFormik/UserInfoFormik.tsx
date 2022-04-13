@@ -1,10 +1,11 @@
-import { Button, LinearProgress } from "@mui/material";
-import { Formik, Form, Field } from "formik";
+import { LinearProgress } from "@mui/material";
+import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
-import { createUserInfo, updateUserInfo } from "../../../services/userInfoAPI";
+import { createUserInfo, updateUserInfo } from "../../../services";
 import { IFUserInfoFormValues } from "../../../types/FormTypes";
 import { useUserData } from "../../../contexts/userContext";
 import { IFAlert } from "../../../types/AlertTypes";
+import { StyledForm, SubmitButon } from "../../GlobalStyledComponents";
 
 interface IFUserInfoFormikProps {
   userToken?: string | null;
@@ -70,7 +71,7 @@ export const UserInfoFormik = (props: IFUserInfoFormikProps) => {
       }}
     >
       {({ submitForm, isSubmitting }) => (
-        <Form>
+        <StyledForm>
           <Field
             component={TextField}
             variant="outlined"
@@ -102,7 +103,7 @@ export const UserInfoFormik = (props: IFUserInfoFormikProps) => {
             id="age"
           />
           {isSubmitting && <LinearProgress />}
-          <Button
+          <SubmitButon
             type="submit"
             fullWidth
             variant="contained"
@@ -111,8 +112,8 @@ export const UserInfoFormik = (props: IFUserInfoFormikProps) => {
             onClick={submitForm}
           >
             Uložit
-          </Button>
-        </Form>
+          </SubmitButon>
+        </StyledForm>
       )}
     </Formik>
   );

@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
-import { updateUser } from "../../services/userAPI";
+import { updateUser } from "../../../services";
 
 interface IFUserTableData {
   _id: string;

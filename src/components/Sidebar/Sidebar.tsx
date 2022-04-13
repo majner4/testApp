@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import { Menu, ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { ListMenu } from "../ListMenu";
-import { ProfileAvatar } from "../Avatar";
+import { ProfileAvatar } from "../ProfileAvatar";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const RootContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -34,7 +34,6 @@ const StyledToolBar = styled(Toolbar)(({ theme }) => ({
 }));
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  width: drawerWidth,
   flexShrink: 0,
 }));
 
@@ -54,7 +53,6 @@ const StyledContent = styled("main")(({ theme }) => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  marginLeft: -drawerWidth,
 }));
 
 interface IFSideBarProps {
@@ -106,8 +104,7 @@ export const Sidebar = (props: IFSideBarProps) => {
         </DrawerHeader>
         <ListMenu />
       </StyledDrawer>
-      <StyledContent>
-        <DrawerHeader />
+      <StyledContent sx={{ marginLeft: open ? drawerWidth + "px" : 0 }}>
         {props.children}
       </StyledContent>
     </RootContainer>

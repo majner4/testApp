@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import { styled, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Cookies from "js-cookie";
-import { getAll } from "../../services/userAPI";
+import { getAll } from "../../../services";
 import { AdminTable } from "./AdminTable";
-
-const RootContainer = styled("div")(({ theme }) => ({
-  width: "100%",
-  backgroundColor: theme.palette.background.paper,
-}));
+import { RootContainer } from "../../../components";
 
 export const AdminSection = () => {
   const [allUsers, setAllUsers] = useState<[]>([]);

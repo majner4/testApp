@@ -12,19 +12,13 @@ import {
   styled,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { NewsFormik } from "../Forms";
+import { NewsFormik, RootContainer } from "../../../components";
 import Cookies from "js-cookie";
-import { getUsersNews } from "../../services/userNewsAPI";
-import { useUserData } from "../../contexts/userContext";
-import { IFUserNews } from "../../types/FormTypes";
+import { getUsersNews } from "../../../services";
+import { useUserData } from "../../../contexts/userContext";
+import { IFUserNews } from "../../../types/FormTypes";
 import moment from "moment";
 moment.locale("cs");
-
-const RootContainer = styled("div")(({ theme }) => ({
-  width: "100%",
-  maxWidth: "100%",
-  backgroundColor: theme.palette.background.paper,
-}));
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   width: "60px",
@@ -62,6 +56,7 @@ export const News = () => {
     let newsItem;
     if (news && news.length) {
       newsItem = news?.map((item, index) => {
+        console.log(item, "news");
         return (
           <Grid item>
             <Card key={index}>

@@ -7,11 +7,11 @@ import {
   styled,
 } from "@mui/material";
 import {
-  EventAvailable,
   ExitToApp,
   Feedback,
   Info,
   Lock,
+  Settings,
   SupervisorAccount,
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
@@ -57,28 +57,20 @@ export const ListMenu = () => {
             <ListItemText primary="Profil" />
           </ListItem>
         </StyledLink>
-        {/* <Link className={classes.link} to="/profile/settings">
+        <StyledLink to="/profile/settings">
           <ListItem button>
             <ListItemIcon>
               <Settings />
             </ListItemIcon>
             <ListItemText primary="Nastavení" />
           </ListItem>
-        </Link> */}
+        </StyledLink>
         <StyledLink to="/profile/changePassword">
           <ListItem button>
             <ListItemIcon>
               <Lock />
             </ListItemIcon>
             <ListItemText primary="Změna hesla" />
-          </ListItem>
-        </StyledLink>
-        <StyledLink to="/profile/calendar">
-          <ListItem button>
-            <ListItemIcon>
-              <EventAvailable />
-            </ListItemIcon>
-            <ListItemText primary="Můj kalendář" />
           </ListItem>
         </StyledLink>
         {admin && (

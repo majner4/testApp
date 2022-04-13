@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useState } from "react";
-import { IFUserData } from "../pages/ProfilePage";
+import { IFUserData } from "../pages";
 import { IFUserInfoFormValues, IFUserNews } from "../types/FormTypes";
 
 export const UserDataContext = createContext<{

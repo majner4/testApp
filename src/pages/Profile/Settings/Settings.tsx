@@ -1,10 +1,5 @@
-import { styled, Typography } from "@mui/material";
-
-const RootContainer = styled("div")(({ theme }) => ({
-  width: "100%",
-  maxWidth: 360,
-  backgroundColor: theme.palette.background.paper,
-}));
+import { Typography } from "@mui/material";
+import { RootContainer } from "../../../components";
 
 export const Settings = () => {
   return (

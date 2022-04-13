@@ -7,14 +7,15 @@ import {
   Typography,
   LinearProgress,
 } from "@mui/material";
-import { Formik, Form, Field } from "formik";
+import { Formik, Field } from "formik";
 import { Facebook, AccountBox } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { TextField } from "formik-material-ui";
 import { Link, useNavigate } from "react-router-dom";
 import { IFLoginFormValues } from "../types/FormTypes";
-import { loginUser, IFUser } from "../services/userAPI";
+import { loginUser, IFUser } from "../services";
+import { StyledForm, SubmitButon } from "../components";
 
 export const SignInPage = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ export const SignInPage = () => {
             }}
           >
             {({ submitForm, isSubmitting }) => (
-              <Form>
+              <StyledForm>
                 <Field
                   component={TextField}
                   variant="outlined"
@@ -99,7 +100,7 @@ export const SignInPage = () => {
                   autoComplete="current-password"
                 />
                 {isSubmitting && <LinearProgress />}
-                <Button
+                <SubmitButon
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -108,8 +109,8 @@ export const SignInPage = () => {
                   onClick={submitForm}
                 >
                   Přihlásit se
-                </Button>
-              </Form>
+                </SubmitButon>
+              </StyledForm>
             )}
           </Formik>
           <Grid container>

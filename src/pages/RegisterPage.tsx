@@ -1,6 +1,4 @@
-import React from "react";
 import {
-  Button,
   LinearProgress,
   Avatar,
   CssBaseline,
@@ -8,14 +6,15 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { Formik, Form, Field } from "formik";
+import { Formik, Field } from "formik";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { TextField } from "formik-material-ui";
 import { Link, useNavigate } from "react-router-dom";
 import { PersonAdd } from "@mui/icons-material";
 import { IFRegisterFormValues } from "../types/FormTypes";
-import { createUser, loginUser, IFUser } from "../services/userAPI";
+import { createUser, loginUser, IFUser } from "../services";
+import { StyledForm, SubmitButon } from "../components";
 
 export const RegisterPage = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -87,7 +86,7 @@ export const RegisterPage = () => {
             }}
           >
             {({ submitForm, isSubmitting }) => (
-              <Form>
+              <StyledForm>
                 <Field
                   component={TextField}
                   variant="outlined"
@@ -124,7 +123,7 @@ export const RegisterPage = () => {
                 />
                 {isSubmitting && <LinearProgress />}
                 <br />
-                <Button
+                <SubmitButon
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -133,8 +132,8 @@ export const RegisterPage = () => {
                   onClick={submitForm}
                 >
                   Registrovat se
-                </Button>
-              </Form>
+                </SubmitButon>
+              </StyledForm>
             )}
           </Formik>
           <Grid container>
