@@ -2,7 +2,7 @@ import React, { useContext, createContext, useState } from "react";
 import { IFUserData } from "../pages/ProfilePage";
 import { IFUserInfoFormValues, IFUserNews } from "../types/FormTypes";
 
-export const userDataContext = createContext<{
+export const UserDataContext = createContext<{
   userData: { data?: IFUserData; setUserData: (data: IFUserData) => void };
   userInfoData: {
     infoData?: IFUserInfoFormValues;
@@ -23,27 +23,29 @@ export const userDataContext = createContext<{
     setNews: () => {},
   },
 });
-// @ts-ignore
-export const UserDataProvider: React.FC = ({ children }) => {
+
+export const UserDataProvider: React.FC<React.PropsWithChildren<{}>> = (
+  props
+) => {
   const [data, setUserData] = useState<IFUserData>({});
   const [infoData, setUserInfoData] = useState<IFUserInfoFormValues>({});
   const [news, setNews] = useState<IFUserNews[]>([]);
 
   return (
-    <userDataContext.Provider
+    <UserDataContext.Provider
       value={{
         userData: { data, setUserData },
         userInfoData: { infoData, setUserInfoData },
         userNews: { news, setNews },
       }}
     >
-      {children}
-    </userDataContext.Provider>
+      {props.children}
+    </UserDataContext.Provider>
   );
 };
 
 export const useUserData = () => {
-  const ctx = useContext(userDataContext);
+  const ctx = useContext(UserDataContext);
 
   const loginUser = () => {
     setTimeout(() => {
