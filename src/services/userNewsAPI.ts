@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IFUserNews } from "../types/FormTypes";
+import { IUserNews } from "../types";
 
 export const getUsersNews = {
   get: async (token: string) => {
@@ -26,7 +26,7 @@ export const getUserNews = {
 };
 
 export const createUserNews = {
-  create: async (data: IFUserNews, token: string) => {
+  create: async (data: IUserNews, token: string) => {
     let res = await axios.post(
       `https://my-test-app-react-be.herokuapp.com/api/userNews`,
       data,
@@ -39,7 +39,7 @@ export const createUserNews = {
 };
 
 export const updateUserNews = {
-  update: async (data: IFUserNews, token: string) => {
+  update: async (data: IUserNews, token: string) => {
     let res = await axios.put(
       `https://my-test-app-react-be.herokuapp.com/api/userNews`,
       data,

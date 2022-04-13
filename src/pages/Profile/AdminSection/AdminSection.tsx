@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, VFC } from "react";
 import { Typography } from "@mui/material";
 import Cookies from "js-cookie";
 import { getAll } from "../../../services";
 import { AdminTable } from "./AdminTable";
 import { RootContainer } from "../../../components";
 
-export const AdminSection = () => {
+export const AdminSection: VFC = () => {
   const [allUsers, setAllUsers] = useState<[]>([]);
   const [updateData, setUpdateData] = useState<boolean>(false);
 

@@ -1,42 +1,23 @@
 import React, { useContext, createContext, useState } from "react";
-import { IFUserData } from "../pages";
-import { IFUserInfoFormValues, IFUserNews } from "../types/FormTypes";
+import { IUserData } from "../types";
 
 export const UserDataContext = createContext<{
-  userData: { data?: IFUserData; setUserData: (data: IFUserData) => void };
-  userInfoData: {
-    infoData?: IFUserInfoFormValues;
-    setUserInfoData: (infoData: IFUserInfoFormValues) => void;
-  };
-  userNews: {
-    news?: IFUserNews[];
-    setNews: (news: IFUserNews[]) => void;
-  };
+  userData: { data?: IUserData; setUserData: (data: IUserData) => void };
 }>({
   userData: {
     setUserData: () => {},
-  },
-  userInfoData: {
-    setUserInfoData: () => {},
-  },
-  userNews: {
-    setNews: () => {},
   },
 });
 
 export const UserDataProvider: React.FC<React.PropsWithChildren<{}>> = (
   props
 ) => {
-  const [data, setUserData] = useState<IFUserData>({});
-  const [infoData, setUserInfoData] = useState<IFUserInfoFormValues>({});
-  const [news, setNews] = useState<IFUserNews[]>([]);
+  const [data, setUserData] = useState<IUserData>({});
 
   return (
     <UserDataContext.Provider
       value={{
         userData: { data, setUserData },
-        userInfoData: { infoData, setUserInfoData },
-        userNews: { news, setNews },
       }}
     >
       {props.children}

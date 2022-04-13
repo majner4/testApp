@@ -1,6 +1,7 @@
 import { Avatar, styled } from "@mui/material";
+import { VFC } from "react";
 
-interface IFProfileAvatarProps {
+interface IProfileAvatarProps {
   email?: string;
   image?: string;
   style?: object;
@@ -13,9 +14,8 @@ const RootContainer = styled("div")(({ theme }) => ({
   },
 }));
 
-export const ProfileAvatar = (props: IFProfileAvatarProps) => {
+export const ProfileAvatar: VFC<IProfileAvatarProps> = (props) => {
   const { email, style, image } = props;
-  console.log(image, "test");
   const upperCasedEmail = email && email.toUpperCase();
   return (
     <RootContainer>

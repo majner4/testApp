@@ -2,20 +2,24 @@ import { LinearProgress } from "@mui/material";
 import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import { createUserInfo, updateUserInfo } from "../../../services";
-import { IFUserInfoFormValues } from "../../../types/FormTypes";
-import { useUserData } from "../../../contexts/userContext";
-import { IFAlert } from "../../../types/AlertTypes";
+import { IUserInfoFormValues, IAlert } from "../../../types";
+import { useUserInfo } from "../../../contexts/";
 import { StyledForm, SubmitButon } from "../../GlobalStyledComponents";
 
-interface IFUserInfoFormikProps {
+interface IUserInfoFormikProps {
   userToken?: string | null;
-  formValues: IFUserInfoFormValues | undefined;
+  formValues: IUserInfoFormValues | undefined;
   updatedForm: (updated: boolean) => void;
-  handleNotification: (alert: IFAlert) => void;
+  handleNotification: (alert: IAlert) => void;
 }
 
-export const UserInfoFormik = (props: IFUserInfoFormikProps) => {
+export const UserInfoFormik = (props: IUserInfoFormikProps) => {
   const { userToken, formValues, updatedForm, handleNotification } = props;
+  const {
+    context: { userInfoData },
+  } = useUserInfo();
+  const { setUserInfoData } = userInfoData;
+
   const defaultValues = {
     firstName: "",
     lastName: "",
@@ -23,21 +27,19 @@ export const UserInfoFormik = (props: IFUserInfoFormikProps) => {
     id: "",
   };
 
-  const userInfoStore = useUserData().context.userInfoData;
-
   const initialValues = formValues ?? defaultValues;
-  const handleSubmitUserInfoData = async (data: IFUserInfoFormValues) => {
+  const handleSubmitUserInfoData = async (data: IUserInfoFormValues) => {
     if (!formValues?.firstName && userToken) {
       const createUserInfoData = await createUserInfo.create(data, userToken);
       if (createUserInfoData) {
         handleNotification(createUserInfoData.statusMessage);
-        userInfoStore.setUserInfoData(createUserInfoData.userInfo);
+        setUserInfoData(createUserInfoData.userInfo);
       }
     } else if (userToken) {
       const updateUserInfoData = await updateUserInfo.update(data, userToken);
       if (updateUserInfoData) {
         handleNotification(updateUserInfoData.statusMessage);
-        userInfoStore.setUserInfoData(updateUserInfoData.userInfo);
+        setUserInfoData(updateUserInfoData.userInfo);
       }
     }
     updatedForm(true);
@@ -48,7 +50,7 @@ export const UserInfoFormik = (props: IFUserInfoFormikProps) => {
       initialValues={initialValues}
       enableReinitialize
       validate={(values) => {
-        const errors: Partial<IFUserInfoFormValues> = {};
+        const errors: Partial<IUserInfoFormValues> = {};
         // if (!values.email) {
         //   errors.email = 'Povinné pole';
         // } else if (

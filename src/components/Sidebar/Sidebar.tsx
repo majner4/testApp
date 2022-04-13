@@ -1,5 +1,4 @@
-import React from "react";
-
+import { FC, ReactNode, useState } from "react";
 import {
   Drawer,
   AppBar,
@@ -55,15 +54,15 @@ const StyledContent = styled("main")(({ theme }) => ({
   }),
 }));
 
-interface IFSideBarProps {
+interface ISideBarProps {
   userEmail?: string;
   userImage?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export const Sidebar = (props: IFSideBarProps) => {
+export const Sidebar: FC<ISideBarProps> = (props) => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const { userEmail, userImage } = props;
 
   const handleDrawerOpen = () => {

@@ -15,7 +15,8 @@ import {
   SupervisorAccount,
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserData } from "../../contexts/userContext";
+import { useUserData } from "../../contexts";
+import { VFC } from "react";
 
 const RootContainer = styled("div")(({ theme }) => ({
   width: "100%",
@@ -28,8 +29,12 @@ const StyledLink = styled(Link)(({ theme }) => ({
   textDecoration: "none",
 }));
 
-export const ListMenu = () => {
-  const userStore = useUserData().context.userData;
+export const ListMenu: VFC = () => {
+  const {
+    context: { userData },
+  } = useUserData();
+  const { data } = userData;
+
   const navigate = useNavigate();
 
   const logOutUser = () => {
@@ -37,7 +42,7 @@ export const ListMenu = () => {
     navigate("/");
   };
 
-  const admin = userStore.data?.role === "admin";
+  const admin = data?.role === "admin";
   return (
     <RootContainer>
       <List component="nav" aria-label="main">

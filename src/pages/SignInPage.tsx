@@ -13,11 +13,12 @@ import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { TextField } from "formik-material-ui";
 import { Link, useNavigate } from "react-router-dom";
-import { IFLoginFormValues } from "../types/FormTypes";
+import { ILoginFormValues } from "../types";
 import { loginUser, IFUser } from "../services";
 import { StyledForm, SubmitButon } from "../components";
+import { VFC } from "react";
 
-export const SignInPage = () => {
+export const SignInPage: VFC = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -51,7 +52,7 @@ export const SignInPage = () => {
               password: "",
             }}
             validate={(values) => {
-              const errors: Partial<IFLoginFormValues> = {};
+              const errors: Partial<ILoginFormValues> = {};
               if (!values.email) {
                 errors.email = "Povinné pole";
               } else if (

@@ -13,8 +13,12 @@ import {
 } from "../../pages";
 
 export const Router: VFC = () => {
-  const userStore = useUserData().context.userData;
-  const admin = userStore.data?.role === "admin";
+  const {
+    context: { userData },
+  } = useUserData();
+  const { data } = userData;
+
+  const admin = data?.role === "admin";
   return (
     <Routes>
       <Route path="/" element={<SignInPage />} />

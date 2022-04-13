@@ -1,12 +1,5 @@
 import axios from "axios";
-import { IFUserInfoFormValues } from "../types/FormTypes";
-
-export interface IFUserInfo {
-  firstName?: string;
-  lastName?: string;
-  age?: number | null;
-  id: string;
-}
+import { IUserInfoFormValues } from "../types";
 
 export const getUserInfo = {
   get: async (token: string) => {
@@ -21,7 +14,7 @@ export const getUserInfo = {
 };
 
 export const createUserInfo = {
-  create: async (data: IFUserInfoFormValues, token: string) => {
+  create: async (data: IUserInfoFormValues, token: string) => {
     let res = await axios.post(
       `https://my-test-app-react-be.herokuapp.com/api/userInfo/`,
       data,
@@ -34,7 +27,7 @@ export const createUserInfo = {
 };
 
 export const updateUserInfo = {
-  update: async (data: IFUserInfoFormValues, token: string) => {
+  update: async (data: IUserInfoFormValues, token: string) => {
     let res = await axios.put(
       `https://my-test-app-react-be.herokuapp.com/api/userInfo/`,
       data,

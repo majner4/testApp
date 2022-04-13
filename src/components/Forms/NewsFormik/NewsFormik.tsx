@@ -2,38 +2,42 @@ import { LinearProgress } from "@mui/material";
 import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import { createUserNews, updateUserNews } from "../../../services";
-import { IFUserNews } from "../../../types/FormTypes";
-import { useUserData } from "../../../contexts/userContext";
-import { IFAlert } from "../../../types/AlertTypes";
+import { IUserNews, IAlert } from "../../../types";
+import { useUserInfo } from "../../../contexts";
 import { StyledForm, SubmitButon } from "../../GlobalStyledComponents";
 
-interface IFUserNewsFormikProps {
+interface IUserNewsFormikProps {
   userToken?: string | null;
-  formValues?: IFUserNews | undefined;
-  handleNotification: (alert: IFAlert) => void;
+  formValues?: IUserNews | undefined;
+  handleNotification: (alert: IAlert) => void;
   handleChange: () => void;
 }
 
-export const NewsFormik = (props: IFUserNewsFormikProps) => {
+export const NewsFormik = (props: IUserNewsFormikProps) => {
   const { userToken, formValues, handleNotification, handleChange } = props;
+  const {
+    context: { userInfoData },
+  } = useUserInfo();
+  const { infoData } = userInfoData;
+
+  /* const {
+    context: { userNews },
+  } = useUserNews();
+  const { setNews, news } = userNews; */
+
   const defaultValues = {
     newsDescription: "",
     titleNews: "",
   };
 
-  const userInfoStore = useUserData().context.userInfoData;
-  const userNewsStore = useUserData().context.userNews;
-  console.log(userInfoStore.infoData, "kjf");
+  console.log(infoData, "kjf");
   const initialValues = formValues ?? defaultValues;
-  const handleSubmitUserNewsData = async (data: IFUserNews) => {
+  const handleSubmitUserNewsData = async (data: IUserNews) => {
     const currentData = {
       ...data,
-      userId: userInfoStore.infoData?.id,
+      userId: infoData?.id,
       createdDateNews: new Date(),
-      authorNews:
-        userInfoStore.infoData?.firstName +
-        " " +
-        userInfoStore.infoData?.lastName,
+      authorNews: infoData?.firstName + " " + infoData?.lastName,
     };
     if (!formValues?.newsDescription && userToken) {
       const createUserNewsData = await createUserNews.create(
@@ -61,7 +65,7 @@ export const NewsFormik = (props: IFUserNewsFormikProps) => {
       initialValues={initialValues}
       enableReinitialize
       validate={(values) => {
-        const errors: Partial<IFUserNews> = {};
+        const errors: Partial<IUserNews> = {};
         // if (!values.email) {
         //   errors.email = 'Povinné pole';
         // } else if (

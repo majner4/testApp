@@ -1,4 +1,4 @@
-export interface IFAlert {
+export interface IAlert {
   message?: string;
   type?: "error" | "success";
 }

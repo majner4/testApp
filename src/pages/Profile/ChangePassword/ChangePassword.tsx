@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, VFC } from "react";
 import { LinearProgress, Typography } from "@mui/material";
 import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
@@ -7,18 +7,18 @@ import { useSnackbar } from "notistack";
 import { getUserDataByToken, updatePassword } from "../../../services";
 import { RootContainer, StyledForm, SubmitButon } from "../../../components";
 
-interface IFChangePassword {
+interface IChangePassword {
   oldPassword: string;
   newPassword: string;
   confirmNewPassword: string;
 }
 
-export const ChangePassword = () => {
+export const ChangePassword: VFC = () => {
   const [userData, setUserData] = useState();
   const { enqueueSnackbar } = useSnackbar();
   const token = Cookies.get("token");
 
-  const handleChangePassword = async (data: IFChangePassword) => {
+  const handleChangePassword = async (data: IChangePassword) => {
     if (token) {
       const updatedPassword = await updatePassword.update(data, token);
       const notification = updatedPassword.statusMessage;
@@ -57,7 +57,7 @@ export const ChangePassword = () => {
           confirmNewPassword: "",
         }}
         validate={(values) => {
-          const errors: Partial<IFChangePassword> = {};
+          const errors: Partial<IChangePassword> = {};
           if (!values.oldPassword) {
             errors.oldPassword = "Povinné pole";
           }

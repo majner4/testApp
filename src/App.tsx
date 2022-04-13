@@ -1,12 +1,21 @@
 import { SnackbarProvider } from "notistack";
-import { UserDataProvider } from "./contexts/userContext";
+import {
+  UserDataProvider,
+  UserInfoProvider,
+  UserNewsProvider,
+} from "./contexts";
 import { Router } from "./components";
+import { VFC } from "react";
 
-const App = () => {
+const App: VFC = () => {
   return (
     <SnackbarProvider maxSnack={3}>
       <UserDataProvider>
-        <Router />
+        <UserInfoProvider>
+          <UserNewsProvider>
+            <Router />
+          </UserNewsProvider>
+        </UserInfoProvider>
       </UserDataProvider>
     </SnackbarProvider>
   );

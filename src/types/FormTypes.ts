@@ -1,15 +1,15 @@
-export interface IFLoginFormValues {
+export interface ILoginFormValues {
   email: string;
   password: string;
 }
 
-export interface IFRegisterFormValues {
+export interface IRegisterFormValues {
   email: string;
   password: string;
   confirmPassword: string;
 }
 
-export interface IFUserInfoFormValues {
+export interface IUserInfoFormValues {
   firstName?: string;
   lastName?: string;
   age?: number | null;
@@ -17,7 +17,7 @@ export interface IFUserInfoFormValues {
   id?: string;
 }
 
-export interface IFUserNews {
+export interface IUserNews {
   newsDescription?: string;
   titleNews?: string;
   createdDateNews?: Date;

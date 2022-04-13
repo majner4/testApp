@@ -12,11 +12,12 @@ import { useSnackbar } from "notistack";
 import { TextField } from "formik-material-ui";
 import { Link, useNavigate } from "react-router-dom";
 import { PersonAdd } from "@mui/icons-material";
-import { IFRegisterFormValues } from "../types/FormTypes";
+import { IRegisterFormValues } from "../types";
 import { createUser, loginUser, IFUser } from "../services";
 import { StyledForm, SubmitButon } from "../components";
+import { VFC } from "react";
 
-export const RegisterPage = () => {
+export const RegisterPage: VFC = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ export const RegisterPage = () => {
               confirmPassword: "",
             }}
             validate={(values) => {
-              const errors: Partial<IFRegisterFormValues> = {};
+              const errors: Partial<IRegisterFormValues> = {};
               if (!values.email) {
                 errors.email = "Povinné pole";
               } else if (

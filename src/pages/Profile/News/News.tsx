@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, VFC } from "react";
 import { Favorite, Share, MoreVert } from "@mui/icons-material";
 import {
   Card,
@@ -15,8 +15,8 @@ import { useSnackbar } from "notistack";
 import { NewsFormik, RootContainer } from "../../../components";
 import Cookies from "js-cookie";
 import { getUsersNews } from "../../../services";
-import { useUserData } from "../../../contexts/userContext";
-import { IFUserNews } from "../../../types/FormTypes";
+import { useUserData, useUserNews } from "../../../contexts";
+import { IUserNews } from "../../../types";
 import moment from "moment";
 moment.locale("cs");
 
@@ -27,9 +27,12 @@ const StyledAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: "#000",
 }));
 
-export const News = () => {
+export const News: VFC = () => {
   const token = Cookies.get("token");
-  const userNewsStore = useUserData().context.userNews;
+  const {
+    context: { userNews },
+  } = useUserNews();
+  const { setNews, news } = userNews;
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -37,7 +40,7 @@ export const News = () => {
     if (token) {
       const data = await getUsersNews.get(token);
       if (data) {
-        userNewsStore.setNews(data);
+        setNews(data);
       }
     } else {
       return;
@@ -52,7 +55,7 @@ export const News = () => {
     getNews();
   }, []);
 
-  const renderNewsItem = (news?: IFUserNews[]) => {
+  const renderNewsItem = (news?: IUserNews[]) => {
     let newsItem;
     if (news && news.length) {
       newsItem = news?.map((item, index) => {
@@ -114,7 +117,7 @@ export const News = () => {
         }
       />
       <Grid container spacing={2}>
-        {renderNewsItem(userNewsStore.news)}
+        {renderNewsItem(news)}
       </Grid>
     </RootContainer>
   );

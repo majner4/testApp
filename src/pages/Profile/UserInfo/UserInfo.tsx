@@ -12,38 +12,45 @@ import {
 } from "@mui/material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
-import { useEffect, useState } from "react";
+import { useEffect, useState, VFC } from "react";
 import {
   NewsFormik,
   ProfileAvatar,
   RootContainer,
   UserInfoFormik,
 } from "../../../components";
-import { useUserData } from "../../../contexts/userContext";
+import { useUserData, useUserInfo } from "../../../contexts";
 import {
   updateProfileImage,
   uploadProfileImage,
   getUserInfo,
   getUserNews,
 } from "../../../services";
-import { IFUserNews } from "../../../types/FormTypes";
+import { IUserNews } from "../../../types";
 import moment from "moment";
 
-export const UserInfo = () => {
-  const userStore = useUserData().context.userData;
-  const userInfoStore = useUserData().context.userInfoData;
+export const UserInfo: VFC = () => {
+  const {
+    context: { userInfoData },
+  } = useUserInfo();
+  const { infoData, setUserInfoData } = userInfoData;
+
+  const {
+    context: { userData },
+  } = useUserData();
+  const { data } = userData;
+
   const token = Cookies.get("token");
 
   const [updateForm, setUpdateForm] = useState(false);
-  const [myNews, setMyNews] = useState<IFUserNews[]>([]);
+  const [myNews, setMyNews] = useState<IUserNews[]>([]);
   const { enqueueSnackbar } = useSnackbar();
 
   const getUserInfoData = async () => {
     if (token) {
       const getInfo = await getUserInfo.get(token);
-      console.log(getInfo, "gfdjg");
       if (getInfo) {
-        userInfoStore.setUserInfoData(getInfo);
+        setUserInfoData(getInfo);
       }
     } else {
       return;
@@ -57,7 +64,7 @@ export const UserInfo = () => {
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadFile = e.target.files?.[0];
     if (uploadFile && token) {
-      if (!userInfoStore.infoData?.imageUrl) {
+      if (!infoData?.imageUrl) {
         const createProfileImage = await uploadProfileImage.create(
           uploadFile,
           token
@@ -77,13 +84,13 @@ export const UserInfo = () => {
     return (
       <Grid item xs={12}>
         <Typography variant="body1" align="left" color="textPrimary">
-          Příjmení: {userInfoStore.infoData?.lastName}
+          Příjmení: {infoData?.lastName}
         </Typography>
         <Typography variant="body1" align="left" color="textPrimary">
-          Jméno: {userInfoStore.infoData?.firstName}
+          Jméno: {infoData?.firstName}
         </Typography>
         <Typography variant="body1" align="left" color="textPrimary">
-          Věk: {userInfoStore.infoData?.age}
+          Věk: {infoData?.age}
         </Typography>
         <Button onClick={() => setUpdateForm(true)}>Upravit</Button>
       </Grid>
@@ -93,7 +100,7 @@ export const UserInfo = () => {
   const renderUserFormik = () => {
     return (
       <UserInfoFormik
-        formValues={userInfoStore.infoData}
+        formValues={infoData}
         userToken={token}
         updatedForm={(updated) => setUpdateForm(!updated)}
         handleNotification={(notification) =>
@@ -103,7 +110,7 @@ export const UserInfo = () => {
     );
   };
 
-  const renderMyNewsItem = (news?: IFUserNews[]) => {
+  const renderMyNewsItem = (news?: IUserNews[]) => {
     let newsItem;
     if (news && news.length) {
       newsItem = news?.map((item, index) => {
@@ -168,8 +175,8 @@ export const UserInfo = () => {
     <RootContainer>
       <div>
         <ProfileAvatar
-          email={userStore.data?.email}
-          image={userInfoStore.infoData?.imageUrl}
+          email={data?.email}
+          image={infoData?.imageUrl}
           style={{
             fontSize: "70px",
             width: "200px",
@@ -185,8 +192,8 @@ export const UserInfo = () => {
         />
         <label htmlFor="avatar-image-upload">
           <Button variant="contained" color="primary" component="span">
-            {userInfoStore.infoData?.imageUrl ? <Edit /> : <Publish />}
-            {userInfoStore.infoData?.imageUrl ? "Změnit" : "Nahrát"}
+            {infoData?.imageUrl ? <Edit /> : <Publish />}
+            {infoData?.imageUrl ? "Změnit" : "Nahrát"}
           </Button>
         </label>
       </div>
@@ -194,7 +201,7 @@ export const UserInfo = () => {
         <Typography variant="h4" align="center" color="textPrimary">
           Osobní informace
         </Typography>
-        {userInfoStore.infoData?.firstName && !updateForm
+        {infoData?.firstName && !updateForm
           ? renderUserData()
           : renderUserFormik()}
       </div>
