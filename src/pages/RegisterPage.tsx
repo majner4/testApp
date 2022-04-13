@@ -1,11 +1,4 @@
-import {
-  LinearProgress,
-  Avatar,
-  CssBaseline,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { LinearProgress, Avatar, Grid, Typography } from "@mui/material";
 import { Formik, Field } from "formik";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
@@ -14,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PersonAdd } from "@mui/icons-material";
 import { IRegisterFormValues } from "../types";
 import { createUser, loginUser, IFUser } from "../services";
-import { StyledForm, SubmitButon } from "../components";
+import { RootContainer, StyledForm, SubmitButon } from "../components";
 import { VFC } from "react";
 
 export const RegisterPage: VFC = () => {
@@ -42,12 +35,10 @@ export const RegisterPage: VFC = () => {
   };
   return (
     <Grid container component="main">
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div>
-          <Avatar>
-            <PersonAdd style={{ fontSize: "2rem" }} />
+      <Grid item xs={12}>
+        <RootContainer>
+          <Avatar sx={{ width: 100, height: 100, background: "#ffc000" }}>
+            <PersonAdd sx={{ fontSize: "4.5rem", color: "#000" }} />
           </Avatar>
           <Typography component="h1" variant="h5">
             Registrace
@@ -134,20 +125,13 @@ export const RegisterPage: VFC = () => {
                 >
                   Registrovat se
                 </SubmitButon>
+                <Typography variant="body1" textAlign="right">
+                  <Link to="/login">Máte účet? Přihlášení.</Link>
+                </Typography>
               </StyledForm>
             )}
           </Formik>
-          <Grid container>
-            <Grid item xs>
-              {/* <Link to="/forgotPassword">
-                  Zapomenuté heslo?
-                </Link> */}
-            </Grid>
-            <Grid item>
-              <Link to="/login">Máte účet? Přihlášení.</Link>
-            </Grid>
-          </Grid>
-        </div>
+        </RootContainer>
       </Grid>
     </Grid>
   );

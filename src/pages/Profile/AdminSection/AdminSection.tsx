@@ -1,4 +1,4 @@
-import { useEffect, useState, VFC } from "react";
+import { useCallback, useEffect, useState, VFC } from "react";
 import { Typography } from "@mui/material";
 import Cookies from "js-cookie";
 import { getAll } from "../../../services";
@@ -11,7 +11,7 @@ export const AdminSection: VFC = () => {
 
   const token = Cookies.get("token");
 
-  const getAllUsers = async () => {
+  const getAllUsers = useCallback(async () => {
     if (token) {
       const data = await getAll.get(token);
       if (data) {
@@ -20,12 +20,12 @@ export const AdminSection: VFC = () => {
     } else {
       return;
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     getAllUsers();
     setUpdateData(false);
-  }, [updateData]);
+  }, [updateData, getAllUsers]);
 
   return (
     <RootContainer>

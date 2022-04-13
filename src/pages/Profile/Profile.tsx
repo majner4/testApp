@@ -1,4 +1,4 @@
-import { useEffect, VFC } from "react";
+import { useCallback, useEffect, VFC } from "react";
 import { Grid } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -20,7 +20,7 @@ export const Profile: VFC = () => {
 
   const token = Cookies.get("token");
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     if (token) {
       const data = await getUserDataByToken.getData(token);
       if (data) {
@@ -29,11 +29,12 @@ export const Profile: VFC = () => {
     } else {
       return;
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [getUserData]);
 
   return (
     <div>

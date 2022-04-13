@@ -12,6 +12,7 @@ const StyledForm = styled(Form)(({ theme }) => ({
   width: "100%", // Fix IE 11 issue.
   maxWidth: "500px",
   marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(3),
   padding: theme.spacing(3),
   borderRadius: "10px",
   boxShadow: "1px 1px 10px 0px rgba(192,192,192,0.69)",

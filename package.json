@@ -44,11 +44,6 @@
       "react-app/jest"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "browserslist": {
     "production": [
       ">0.2%",

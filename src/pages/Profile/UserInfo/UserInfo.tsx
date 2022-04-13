@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
-import { useEffect, useState, VFC } from "react";
+import { useCallback, useEffect, useState, VFC } from "react";
 import {
   NewsFormik,
   ProfileAvatar,
@@ -46,7 +46,7 @@ export const UserInfo: VFC = () => {
   const [myNews, setMyNews] = useState<IUserNews[]>([]);
   const { enqueueSnackbar } = useSnackbar();
 
-  const getUserInfoData = async () => {
+  const getUserInfoData = useCallback(async () => {
     if (token) {
       const getInfo = await getUserInfo.get(token);
       if (getInfo) {
@@ -55,11 +55,24 @@ export const UserInfo: VFC = () => {
     } else {
       return;
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+  const getMyNews = useCallback(async () => {
+    if (token) {
+      const data = await getUserNews.get(token);
+      if (data) {
+        setMyNews(data);
+      }
+    } else {
+      return;
+    }
+  }, [token]);
 
   useEffect(() => {
     getUserInfoData();
-  }, []);
+    getMyNews();
+  }, [getUserInfoData, getMyNews]);
 
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadFile = e.target.files?.[0];
@@ -115,7 +128,7 @@ export const UserInfo: VFC = () => {
     if (news && news.length) {
       newsItem = news?.map((item, index) => {
         return (
-          <Grid item>
+          <Grid item key={index}>
             <Card key={index}>
               <CardHeader
                 avatar={<Avatar aria-label="recipe">{item.authorNews}</Avatar>}
@@ -156,73 +169,56 @@ export const UserInfo: VFC = () => {
     return newsItem;
   };
 
-  const getMyNews = async () => {
-    if (token) {
-      const data = await getUserNews.get(token);
-      if (data) {
-        setMyNews(data);
-      }
-    } else {
-      return;
-    }
-  };
-
   const handleForm = () => {
     getMyNews();
   };
 
   return (
     <RootContainer>
-      <div>
-        <ProfileAvatar
-          email={data?.email}
-          image={infoData?.imageUrl}
-          style={{
-            fontSize: "70px",
-            width: "200px",
-            height: "200px",
-          }}
-        />
-        <input
-          accept="image/*"
-          hidden
-          id="avatar-image-upload"
-          type="file"
-          onChange={(e) => handleUploadImage(e)}
-        />
-        <label htmlFor="avatar-image-upload">
-          <Button variant="contained" color="primary" component="span">
-            {infoData?.imageUrl ? <Edit /> : <Publish />}
-            {infoData?.imageUrl ? "Změnit" : "Nahrát"}
-          </Button>
-        </label>
-      </div>
-      <div>
-        <Typography variant="h4" align="center" color="textPrimary">
-          Osobní informace
-        </Typography>
-        {infoData?.firstName && !updateForm
-          ? renderUserData()
-          : renderUserFormik()}
-      </div>
-      <div>
-        <Typography variant="h4" align="center" color="textPrimary">
-          Moje příspěvky
-        </Typography>
-        <NewsFormik
-          formValues={{}}
-          userToken={token}
-          handleChange={() => handleForm()}
-          handleNotification={(notification) =>
-            enqueueSnackbar(notification.message, {
-              variant: notification.type,
-            })
-          }
-        />
-        <Grid container spacing={2}>
-          {renderMyNewsItem(myNews)}
-        </Grid>
-      </div>
+      <ProfileAvatar
+        email={data?.email}
+        image={infoData?.imageUrl}
+        style={{
+          fontSize: "70px",
+          width: "200px",
+          height: "200px",
+        }}
+      />
+      <input
+        accept="image/*"
+        hidden
+        id="avatar-image-upload"
+        type="file"
+        onChange={(e) => handleUploadImage(e)}
+      />
+      <label htmlFor="avatar-image-upload">
+        <Button variant="contained" color="primary" component="span">
+          {infoData?.imageUrl ? <Edit /> : <Publish />}
+          {infoData?.imageUrl ? "Změnit" : "Nahrát"}
+        </Button>
+      </label>
+      <Typography variant="h4" align="center" color="textPrimary">
+        Osobní informace
+      </Typography>
+      {infoData?.firstName && !updateForm
+        ? renderUserData()
+        : renderUserFormik()}
+      <Typography variant="h4" align="center" color="textPrimary">
+        Moje příspěvky
+      </Typography>
+      <NewsFormik
+        formValues={{}}
+        userToken={token}
+        handleChange={() => handleForm()}
+        handleNotification={(notification) =>
+          enqueueSnackbar(notification.message, {
+            variant: notification.type,
+          })
+        }
+      />
+      <Grid container spacing={2}>
+        {renderMyNewsItem(myNews)}
+      </Grid>
     </RootContainer>
   );
 };

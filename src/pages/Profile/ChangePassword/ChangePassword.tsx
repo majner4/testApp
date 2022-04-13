@@ -1,4 +1,4 @@
-import React, { useEffect, useState, VFC } from "react";
+import { useCallback, useEffect, VFC } from "react";
 import { LinearProgress, Typography } from "@mui/material";
 import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { getUserDataByToken, updatePassword } from "../../../services";
 import { RootContainer, StyledForm, SubmitButon } from "../../../components";
+import { useUserData } from "../../../contexts";
 
 interface IChangePassword {
   oldPassword: string;
@@ -14,8 +15,12 @@ interface IChangePassword {
 }
 
 export const ChangePassword: VFC = () => {
-  const [userData, setUserData] = useState();
   const { enqueueSnackbar } = useSnackbar();
+  const {
+    context: { userData },
+  } = useUserData();
+  const { setUserData } = userData;
+
   const token = Cookies.get("token");
 
   const handleChangePassword = async (data: IChangePassword) => {
@@ -23,14 +28,10 @@ export const ChangePassword: VFC = () => {
       const updatedPassword = await updatePassword.update(data, token);
       const notification = updatedPassword.statusMessage;
       enqueueSnackbar(notification.message, { variant: notification.type });
-
-      if (!updatedPassword.error) {
-        setUserData(updatedPassword.data);
-      }
     }
   };
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     if (token) {
       const data = await getUserDataByToken.getData(token);
       if (data) {
@@ -39,11 +40,12 @@ export const ChangePassword: VFC = () => {
     } else {
       return;
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [getUserData]);
 
   return (
     <RootContainer>

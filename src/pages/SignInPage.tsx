@@ -1,21 +1,13 @@
-import {
-  Button,
-  Avatar,
-  CssBaseline,
-  Grid,
-  Paper,
-  Typography,
-  LinearProgress,
-} from "@mui/material";
+import { Avatar, Grid, Typography, LinearProgress } from "@mui/material";
 import { Formik, Field } from "formik";
-import { Facebook, AccountBox } from "@mui/icons-material";
+import { AccountBox } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { TextField } from "formik-material-ui";
 import { Link, useNavigate } from "react-router-dom";
 import { ILoginFormValues } from "../types";
 import { loginUser, IFUser } from "../services";
-import { StyledForm, SubmitButon } from "../components";
+import { RootContainer, StyledForm, SubmitButon } from "../components";
 import { VFC } from "react";
 
 export const SignInPage: VFC = () => {
@@ -36,12 +28,10 @@ export const SignInPage: VFC = () => {
   };
   return (
     <Grid container component="main">
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div>
-          <Avatar>
-            <AccountBox style={{ fontSize: "2rem" }} />
+      <Grid item xs={12}>
+        <RootContainer>
+          <Avatar sx={{ width: 100, height: 100, background: "#ffc000" }}>
+            <AccountBox sx={{ fontSize: "5rem", color: "#000" }} />
           </Avatar>
           <Typography component="h1" variant="h5">
             Přihlášení
@@ -111,25 +101,16 @@ export const SignInPage: VFC = () => {
                 >
                   Přihlásit se
                 </SubmitButon>
+                {/* <Button color='primary' variant='contained'>
+									<Facebook />
+								</Button> */}
+                <Typography variant="body1" textAlign="right">
+                  <Link to="/register">Nemáte účet? Registrace</Link>
+                </Typography>
               </StyledForm>
             )}
           </Formik>
-          <Grid container>
-            <Grid item xs>
-              <Button color="primary" variant="contained">
-                <Facebook />
-              </Button>
-            </Grid>
-            <Grid item xs>
-              {/* <Link to="/forgotPasword">
-                Zapomenuté heslo?
-              </Link> */}
-            </Grid>
-            <Grid item>
-              <Link to="/register">Nemáte účet? Registrace</Link>
-            </Grid>
-          </Grid>
-        </div>
+        </RootContainer>
       </Grid>
     </Grid>
   );

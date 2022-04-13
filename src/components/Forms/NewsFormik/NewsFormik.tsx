@@ -30,7 +30,6 @@ export const NewsFormik = (props: IUserNewsFormikProps) => {
     titleNews: "",
   };
 
-  console.log(infoData, "kjf");
   const initialValues = formValues ?? defaultValues;
   const handleSubmitUserNewsData = async (data: IUserNews) => {
     const currentData = {
@@ -96,7 +95,6 @@ export const NewsFormik = (props: IUserNewsFormikProps) => {
             fullWidth
             id="titleNews"
             label="Nadpis příspěvku"
-            rowsMin={3}
             name="titleNews"
           />
           <Field
@@ -106,7 +104,6 @@ export const NewsFormik = (props: IUserNewsFormikProps) => {
             fullWidth
             id="newsDescription"
             label="Obsah příspěvku"
-            rowsMin={3}
             name="newsDescription"
           />
 

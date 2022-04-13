@@ -1,4 +1,4 @@
-import { useEffect, VFC } from "react";
+import { useCallback, useEffect, VFC } from "react";
 import { Favorite, Share, MoreVert } from "@mui/icons-material";
 import {
   Card,
@@ -14,8 +14,8 @@ import {
 import { useSnackbar } from "notistack";
 import { NewsFormik, RootContainer } from "../../../components";
 import Cookies from "js-cookie";
-import { getUsersNews } from "../../../services";
-import { useUserData, useUserNews } from "../../../contexts";
+import { getUserInfo, getUsersNews } from "../../../services";
+import { useUserInfo, useUserNews } from "../../../contexts";
 import { IUserNews } from "../../../types";
 import moment from "moment";
 moment.locale("cs");
@@ -34,9 +34,14 @@ export const News: VFC = () => {
   } = useUserNews();
   const { setNews, news } = userNews;
 
+  const {
+    context: { userInfoData },
+  } = useUserInfo();
+  const { setUserInfoData } = userInfoData;
+
   const { enqueueSnackbar } = useSnackbar();
 
-  const getNews = async () => {
+  const getNews = useCallback(async () => {
     if (token) {
       const data = await getUsersNews.get(token);
       if (data) {
@@ -45,7 +50,20 @@ export const News: VFC = () => {
     } else {
       return;
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+  const getUserInfoData = useCallback(async () => {
+    if (token) {
+      const getInfo = await getUserInfo.get(token);
+      if (getInfo) {
+        setUserInfoData(getInfo);
+      }
+    } else {
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const handleForm = () => {
     getNews();
@@ -53,15 +71,15 @@ export const News: VFC = () => {
 
   useEffect(() => {
     getNews();
-  }, []);
+    getUserInfoData();
+  }, [getNews, getUserInfoData]);
 
   const renderNewsItem = (news?: IUserNews[]) => {
     let newsItem;
     if (news && news.length) {
       newsItem = news?.map((item, index) => {
-        console.log(item, "news");
         return (
-          <Grid item>
+          <Grid item key={index}>
             <Card key={index}>
               <CardHeader
                 avatar={<StyledAvatar>{item.authorNews}</StyledAvatar>}
