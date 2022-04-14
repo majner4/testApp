@@ -1,6 +1,6 @@
 import { VFC } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useUserData } from "../../contexts/userContext";
+import { useUserData } from "../../hooks";
 import {
   SignInPage,
   RegisterPage,

@@ -19,7 +19,6 @@ import {
   RootContainer,
   UserInfoFormik,
 } from "../../../components";
-import { useUserData, useUserInfo } from "../../../contexts";
 import {
   updateProfileImage,
   uploadProfileImage,
@@ -28,6 +27,7 @@ import {
 } from "../../../services";
 import { IUserNews } from "../../../types";
 import moment from "moment";
+import { useUserData, useUserInfo } from "../../../hooks";
 
 export const UserInfo: VFC = () => {
   const {

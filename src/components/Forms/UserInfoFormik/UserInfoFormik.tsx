@@ -1,9 +1,9 @@
 import { LinearProgress } from "@mui/material";
 import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
+import { useUserInfo } from "../../../hooks";
 import { createUserInfo, updateUserInfo } from "../../../services";
 import { IUserInfoFormValues, IAlert } from "../../../types";
-import { useUserInfo } from "../../../contexts/";
 import { StyledForm, SubmitButon } from "../../GlobalStyledComponents";
 
 interface IUserInfoFormikProps {

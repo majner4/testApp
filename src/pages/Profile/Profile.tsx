@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 import { Sidebar } from "../../components";
 import { getUserDataByToken } from "../../services";
-import { useUserInfo, useUserData } from "../../contexts";
+import { useUserData, useUserInfo } from "../../hooks";
 
 export const Profile: VFC = () => {
   const {

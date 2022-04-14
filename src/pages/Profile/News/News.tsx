@@ -15,9 +15,9 @@ import { useSnackbar } from "notistack";
 import { NewsFormik, RootContainer } from "../../../components";
 import Cookies from "js-cookie";
 import { getUserInfo, getUsersNews } from "../../../services";
-import { useUserInfo, useUserNews } from "../../../contexts";
 import { IUserNews } from "../../../types";
 import moment from "moment";
+import { useUserInfo, useUserNews } from "../../../hooks";
 moment.locale("cs");
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({

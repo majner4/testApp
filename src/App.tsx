@@ -1,11 +1,11 @@
 import { SnackbarProvider } from "notistack";
+import { Router } from "./components";
+import { VFC } from "react";
 import {
   UserDataProvider,
   UserInfoProvider,
   UserNewsProvider,
-} from "./contexts";
-import { Router } from "./components";
-import { VFC } from "react";
+} from "./contextsProviders";
 
 const App: VFC = () => {
   return (

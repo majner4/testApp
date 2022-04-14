@@ -15,8 +15,8 @@ import {
   SupervisorAccount,
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserData } from "../../contexts";
 import { VFC } from "react";
+import { useUserData } from "../../hooks";
 
 const RootContainer = styled("div")(({ theme }) => ({
   width: "100%",

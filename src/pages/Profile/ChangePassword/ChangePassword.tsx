@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { getUserDataByToken, updatePassword } from "../../../services";
 import { RootContainer, StyledForm, SubmitButon } from "../../../components";
-import { useUserData } from "../../../contexts";
+import { useUserData } from "../../../hooks";
 
 interface IChangePassword {
   oldPassword: string;
