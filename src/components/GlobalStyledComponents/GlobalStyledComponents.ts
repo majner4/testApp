@@ -8,14 +8,38 @@ const RootContainer = styled("div")(({ theme }) => ({
   alignItems: "center",
 }));
 
+const FormWrapper = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: "550px",
+  maxWidth: "100%",
+  borderRadius: "20px",
+  padding: theme.spacing(4, 2),
+  border: "8px solid #ffc000",
+  boxShadow: "1px 1px 10px 0px rgb(169 169 169 / 69%)",
+}));
+
+const StyledSignForm = styled(Form)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: "100%", // Fix IE 11 issue.
+  maxWidth: "500px",
+  marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(3),
+  padding: theme.spacing(3),
+  borderRadius: "20px",
+}));
+
 const StyledForm = styled(Form)(({ theme }) => ({
   width: "100%", // Fix IE 11 issue.
   maxWidth: "500px",
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(3),
   padding: theme.spacing(3),
-  borderRadius: "10px",
-  boxShadow: "1px 1px 10px 0px rgba(192,192,192,0.69)",
+  borderRadius: "20px",
+  boxShadow: "1px 1px 10px 0px rgba(220,220,220,0.4)",
 }));
 
 const SubmitButon = styled(Button)(({ theme }) => ({
@@ -27,4 +51,4 @@ const SubmitButon = styled(Button)(({ theme }) => ({
   },
 }));
 
-export { StyledForm, SubmitButon, RootContainer };
+export { StyledForm, SubmitButon, RootContainer, FormWrapper, StyledSignForm };
