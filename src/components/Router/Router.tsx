@@ -2,14 +2,14 @@ import { VFC } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useUserData } from "../../hooks";
 import {
-  SignInPage,
-  RegisterPage,
-  Profile,
-  Settings,
+  AdminSection,
   ChangePassword,
   News,
+  Profile,
+  RegisterPage,
+  Settings,
+  SignInPage,
   UserInfo,
-  AdminSection,
 } from "../../pages";
 
 export const Router: VFC = () => {

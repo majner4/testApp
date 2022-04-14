@@ -1,6 +1,6 @@
 import { SnackbarProvider } from "notistack";
-import { Router } from "./components";
 import { VFC } from "react";
+import { Router } from "./components";
 import {
   UserDataProvider,
   UserInfoProvider,

@@ -24,7 +24,6 @@ const StyledSignForm = styled(Form)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  width: "100%", // Fix IE 11 issue.
   maxWidth: "500px",
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(3),
@@ -33,7 +32,6 @@ const StyledSignForm = styled(Form)(({ theme }) => ({
 }));
 
 const StyledForm = styled(Form)(({ theme }) => ({
-  width: "100%", // Fix IE 11 issue.
   maxWidth: "500px",
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(3),

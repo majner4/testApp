@@ -1,11 +1,3 @@
-import Cookies from "js-cookie";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  styled,
-} from "@mui/material";
 import {
   ExitToApp,
   Feedback,
@@ -14,8 +6,16 @@ import {
   Settings,
   SupervisorAccount,
 } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  styled,
+} from "@mui/material";
+import Cookies from "js-cookie";
 import { VFC } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserData } from "../../hooks";
 
 const RootContainer = styled("div")(({ theme }) => ({
