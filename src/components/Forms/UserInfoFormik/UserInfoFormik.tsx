@@ -82,6 +82,7 @@ export const UserInfoFormik = (props: IUserInfoFormikProps) => {
             id="firstName"
             label="Jméno"
             name="firstName"
+            autoComplete="off"
           />
           <br />
           <Field
@@ -92,6 +93,7 @@ export const UserInfoFormik = (props: IUserInfoFormikProps) => {
             name="lastName"
             label="Příjmení"
             id="lastName"
+            autoComplete="off"
           />
           <br />
           <Field
@@ -103,6 +105,7 @@ export const UserInfoFormik = (props: IUserInfoFormikProps) => {
             label="Věk"
             type="number"
             id="age"
+            autoComplete="off"
           />
           {isSubmitting && <LinearProgress />}
           <SubmitButon

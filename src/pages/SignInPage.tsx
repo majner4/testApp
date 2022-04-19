@@ -1,4 +1,4 @@
-import { Avatar, Grid, Typography, LinearProgress } from "@mui/material";
+import { Grid, Typography, LinearProgress } from "@mui/material";
 import { Formik, Field } from "formik";
 import { AccountBox } from "@mui/icons-material";
 import Cookies from "js-cookie";
@@ -10,6 +10,7 @@ import { loginUser, IFUser } from "../services";
 import {
   FormWrapper,
   RootContainer,
+  StyledAvatar,
   StyledSignForm,
   SubmitButon,
 } from "../components";
@@ -68,11 +69,9 @@ export const SignInPage: VFC = () => {
             >
               {({ submitForm, isSubmitting }) => (
                 <StyledSignForm>
-                  <Avatar
-                    sx={{ width: 100, height: 100, background: "#ffc000" }}
-                  >
-                    <AccountBox sx={{ fontSize: "5rem", color: "#000" }} />
-                  </Avatar>
+                  <StyledAvatar>
+                    <AccountBox sx={{ fontSize: "5rem", color: "#ff" }} />
+                  </StyledAvatar>
                   <Typography component="h1" variant="h5">
                     Přihlášení
                   </Typography>
@@ -85,7 +84,7 @@ export const SignInPage: VFC = () => {
                     id="email"
                     label="Zadejte email"
                     name="email"
-                    autoComplete="email"
+                    autoComplete="off"
                   />
                   <br />
                   <Field
@@ -98,7 +97,7 @@ export const SignInPage: VFC = () => {
                     label="Zadejte heslo"
                     type="password"
                     id="password"
-                    autoComplete="current-password"
+                    autoComplete="off"
                   />
                   {isSubmitting && <LinearProgress />}
                   <SubmitButon

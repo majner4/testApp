@@ -96,6 +96,7 @@ export const NewsFormik = (props: IUserNewsFormikProps) => {
             id="titleNews"
             label="Nadpis příspěvku"
             name="titleNews"
+            autoComplete="off"
           />
           <Field
             component={TextField}
@@ -105,6 +106,7 @@ export const NewsFormik = (props: IUserNewsFormikProps) => {
             id="newsDescription"
             label="Obsah příspěvku"
             name="newsDescription"
+            autoComplete="off"
           />
 
           {isSubmitting && <LinearProgress />}

@@ -1,4 +1,4 @@
-import { LinearProgress, Avatar, Grid, Typography } from "@mui/material";
+import { LinearProgress, Grid, Typography } from "@mui/material";
 import { Formik, Field } from "formik";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
@@ -10,6 +10,7 @@ import { createUser, loginUser, IFUser } from "../services";
 import {
   FormWrapper,
   RootContainer,
+  StyledAvatar,
   StyledSignForm,
   SubmitButon,
 } from "../components";
@@ -81,11 +82,9 @@ export const RegisterPage: VFC = () => {
             >
               {({ submitForm, isSubmitting }) => (
                 <StyledSignForm>
-                  <Avatar
-                    sx={{ width: 100, height: 100, background: "#ffc000" }}
-                  >
-                    <PersonAdd sx={{ fontSize: "4.5rem", color: "#000" }} />
-                  </Avatar>
+                  <StyledAvatar>
+                    <PersonAdd sx={{ fontSize: "4.5rem", color: "#fff" }} />
+                  </StyledAvatar>
                   <Typography component="h1" variant="h5">
                     Registrace
                   </Typography>
@@ -98,7 +97,7 @@ export const RegisterPage: VFC = () => {
                     id="email"
                     label="Zadejte email"
                     name="email"
-                    autoComplete="email"
+                    autoComplete="off"
                   />
                   <br />
                   <Field
@@ -111,6 +110,7 @@ export const RegisterPage: VFC = () => {
                     label="Zadejte heslo"
                     type="password"
                     id="password"
+                    autoComplete="off"
                   />
                   <Field
                     component={TextField}
@@ -122,6 +122,7 @@ export const RegisterPage: VFC = () => {
                     label="Heslo znovu"
                     type="password"
                     id="confirmPassword"
+                    autoComplete="off"
                   />
                   {isSubmitting && <LinearProgress />}
                   <br />

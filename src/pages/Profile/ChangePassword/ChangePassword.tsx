@@ -94,6 +94,7 @@ export const ChangePassword: VFC = () => {
               label="Staré heslo"
               type="password"
               id="oldPassword"
+              autoComplete="off"
             />
             <br />
             <Field
@@ -106,6 +107,7 @@ export const ChangePassword: VFC = () => {
               label="Nové heslo"
               type="password"
               id="newPassword"
+              autoComplete="off"
             />
             <br />
             <Field
@@ -118,6 +120,7 @@ export const ChangePassword: VFC = () => {
               label="Nové heslo znovu"
               type="password"
               id="confirmNewPassword"
+              autoComplete="off"
             />
             {isSubmitting && <LinearProgress />}
             <SubmitButon

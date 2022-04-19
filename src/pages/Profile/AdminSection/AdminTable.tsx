@@ -30,7 +30,7 @@ interface IFAdminTableProps {
 }
 
 const StyledTableHeader = styled(TableHead)(({ theme }) => ({
-  backgroundColor: "#ffc000",
+  backgroundColor: theme.palette.primary.main,
 }));
 
 const StyledTable = styled(Table)(({ theme }) => ({

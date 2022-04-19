@@ -25,7 +25,8 @@ const RootContainer = styled("div")(({ theme }) => ({
 }));
 
 const StyledLink = styled(Link)(({ theme }) => ({
-  color: "#ffc000",
+  color: theme.palette.primary.main,
+  fontWeight: "bold",
   textDecoration: "none",
 }));
 

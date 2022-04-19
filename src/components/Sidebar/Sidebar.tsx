@@ -23,7 +23,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  backgroundColor: "#ffc000",
+  backgroundColor: theme.palette.primary.main,
   height: "60px",
 }));
 
