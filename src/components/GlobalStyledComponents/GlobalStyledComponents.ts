@@ -17,7 +17,7 @@ const FormWrapper = styled("div")(({ theme }) => ({
   borderRadius: "20px",
   padding: theme.spacing(4, 2),
   background:
-    "linear-gradient(153deg, rgba(255,255,255,1) 0%, rgba(0,204,255,0.7455357142857143) 100%)",
+    "linear-gradient(153deg, rgba(204,228,255,1) 0%, rgba(77,162,255,0.8) 100%)",
   boxShadow: "1px 1px 10px 0px rgb(169 169 169 / 69%)",
 }));
 

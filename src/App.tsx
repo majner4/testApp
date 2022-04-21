@@ -23,14 +23,14 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: "20px",
+          borderRadius: "10px",
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "15px",
+          borderRadius: "10px",
         },
       },
     },

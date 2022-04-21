@@ -70,7 +70,7 @@ export const SignInPage: VFC = () => {
               {({ submitForm, isSubmitting }) => (
                 <StyledSignForm>
                   <StyledAvatar>
-                    <AccountBox sx={{ fontSize: "5rem", color: "#ff" }} />
+                    <AccountBox sx={{ fontSize: "5rem", color: "#fff" }} />
                   </StyledAvatar>
                   <Typography component="h1" variant="h5">
                     Přihlášení
