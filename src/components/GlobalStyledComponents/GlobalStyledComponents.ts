@@ -21,7 +21,7 @@ const FormWrapper = styled("div")(({ theme }) => ({
   boxShadow: "1px 1px 10px 0px rgb(169 169 169 / 69%)",
 }));
 
-const StyledSignForm = styled(Form)(({ theme }) => ({
+const StyledSignForm = styled("form")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",

@@ -1,127 +1,61 @@
-import { Grid, Typography, LinearProgress } from "@mui/material";
-import { Formik, Field } from "formik";
-import { AccountBox } from "@mui/icons-material";
-import Cookies from "js-cookie";
-import { useSnackbar } from "notistack";
-import { TextField } from "formik-material-ui";
-import { Link, useNavigate } from "react-router-dom";
-import { ILoginFormValues } from "../types";
-import { loginUser, IFUser } from "../services";
 import {
-  FormWrapper,
-  RootContainer,
-  StyledAvatar,
-  StyledSignForm,
-  SubmitButon,
-} from "../components";
-import { VFC } from "react";
+  Grid,
+  Box,
+  FormControlLabel,
+  Switch,
+  Zoom,
+  Paper,
+  Theme,
+} from "@mui/material";
+import { FormWrapper, RootContainer, SignInForm } from "../components";
+import { useState, VFC } from "react";
 
 export const SignInPage: VFC = () => {
-  const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
+  const [checked, setChecked] = useState(false);
 
-  const handleLogin = async (data: IFUser) => {
-    let login = await loginUser.login(data);
-    const notification = login.statusMessage;
-
-    const token = login.data?.token;
-    if (token && !login.error) {
-      Cookies.set("token", token);
-      navigate("/profile/news");
-    } else {
-      enqueueSnackbar(notification.message, { variant: notification.type });
-    }
+  const handleChange = () => {
+    setChecked((prev) => !prev);
   };
+
+  const icon = (
+    <Paper sx={{ m: 1 }} elevation={4}>
+      <Box component="svg" sx={{ width: 100, height: 100 }}>
+        <Box
+          component="polygon"
+          sx={{
+            fill: (theme: Theme) => theme.palette.common.white,
+            stroke: (theme) => theme.palette.divider,
+            strokeWidth: 1,
+          }}
+          points="0,100 50,00, 100,100"
+        />
+      </Box>
+    </Paper>
+  );
   return (
     <Grid container component="main">
       <Grid item xs={12}>
         <RootContainer>
           <FormWrapper>
-            <Formik
-              initialValues={{
-                email: "",
-                password: "",
-              }}
-              validate={(values) => {
-                const errors: Partial<ILoginFormValues> = {};
-                if (!values.email) {
-                  errors.email = "Povinné pole";
-                } else if (
-                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-                    values.email
-                  )
-                ) {
-                  errors.email = "Nevalidní emailová adresa";
-                }
-                if (!values.password) {
-                  errors.password = "Povinné pole";
-                } else if (values.password.length < 8) {
-                  errors.password = "Heslo musí mít minimálně 8 znaků";
-                }
-                return errors;
-              }}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  setSubmitting(false);
-                  handleLogin(values);
-                }, 500);
-              }}
-            >
-              {({ submitForm, isSubmitting }) => (
-                <StyledSignForm>
-                  <StyledAvatar>
-                    <AccountBox sx={{ fontSize: "5rem", color: "#fff" }} />
-                  </StyledAvatar>
-                  <Typography component="h1" variant="h5">
-                    Přihlášení
-                  </Typography>
-                  <Field
-                    component={TextField}
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Zadejte email"
-                    name="email"
-                    autoComplete="off"
-                  />
-                  <br />
-                  <Field
-                    component={TextField}
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Zadejte heslo"
-                    type="password"
-                    id="password"
-                    autoComplete="off"
-                  />
-                  {isSubmitting && <LinearProgress />}
-                  <SubmitButon
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    disabled={isSubmitting}
-                    onClick={submitForm}
-                  >
-                    Přihlásit se
-                  </SubmitButon>
-                  {/* <Button color='primary' variant='contained'>
-									<Facebook />
-								</Button> */}
-                  <Typography variant="body1" textAlign="right">
-                    <Link to="/register">Nemáte účet? Registrace</Link>
-                  </Typography>
-                </StyledSignForm>
-              )}
-            </Formik>
+            <SignInForm />
           </FormWrapper>
         </RootContainer>
       </Grid>
+      <Box sx={{ height: 180 }}>
+        <FormControlLabel
+          control={<Switch checked={checked} onChange={handleChange} />}
+          label="Show"
+        />
+        <Box sx={{ display: "flex" }}>
+          <Zoom in={checked}>{icon}</Zoom>
+          <Zoom
+            in={checked}
+            style={{ transitionDelay: checked ? "500ms" : "0ms" }}
+          >
+            {icon}
+          </Zoom>
+        </Box>
+      </Box>
     </Grid>
   );
 };

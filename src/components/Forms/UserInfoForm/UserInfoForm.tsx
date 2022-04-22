@@ -2,61 +2,47 @@ import { LinearProgress } from "@mui/material";
 import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import { useUserInfo } from "../../../hooks";
-import { createUserNews, updateUserNews } from "../../../services";
-import { IUserNews, IAlert } from "../../../types";
+import { createUserInfo, updateUserInfo } from "../../../services";
+import { IUserInfoFormValues, IAlert } from "../../../types";
 import { StyledForm, SubmitButon } from "../../GlobalStyledComponents";
 
-interface IUserNewsFormikProps {
+interface IUserInfoFormProps {
   userToken?: string | null;
-  formValues?: IUserNews | undefined;
+  formValues: IUserInfoFormValues | undefined;
+  updatedForm: (updated: boolean) => void;
   handleNotification: (alert: IAlert) => void;
-  handleChange: () => void;
 }
 
-export const NewsFormik = (props: IUserNewsFormikProps) => {
-  const { userToken, formValues, handleNotification, handleChange } = props;
+export const UserInfoForm = (props: IUserInfoFormProps) => {
+  const { userToken, formValues, updatedForm, handleNotification } = props;
   const {
     context: { userInfoData },
   } = useUserInfo();
-  const { infoData } = userInfoData;
-
-  /* const {
-    context: { userNews },
-  } = useUserNews();
-  const { setNews, news } = userNews; */
+  const { setUserInfoData } = userInfoData;
 
   const defaultValues = {
-    newsDescription: "",
-    titleNews: "",
+    firstName: "",
+    lastName: "",
+    age: null,
+    id: "",
   };
 
   const initialValues = formValues ?? defaultValues;
-  const handleSubmitUserNewsData = async (data: IUserNews) => {
-    const currentData = {
-      ...data,
-      userId: infoData?.id,
-      createdDateNews: new Date(),
-      authorNews: infoData?.firstName + " " + infoData?.lastName,
-    };
-    if (!formValues?.newsDescription && userToken) {
-      const createUserNewsData = await createUserNews.create(
-        currentData,
-        userToken
-      );
-      if (createUserNewsData) {
-        handleNotification(createUserNewsData.statusMessage);
-        handleChange();
-        //   userNewsStore.setNews(createUserNewsData.newUserNews);
+  const handleSubmitUserInfoData = async (data: IUserInfoFormValues) => {
+    if (!formValues?.firstName && userToken) {
+      const createUserInfoData = await createUserInfo.create(data, userToken);
+      if (createUserInfoData) {
+        handleNotification(createUserInfoData.statusMessage);
+        setUserInfoData(createUserInfoData.userInfo);
       }
     } else if (userToken) {
-      const updateUserNewsData = await updateUserNews.update(data, userToken);
-      if (updateUserNewsData) {
-        handleNotification(updateUserNewsData.statusMessage);
-        handleChange();
-        //   userNewsStore.setNews(updateUserNewsData.userNews);
+      const updateUserInfoData = await updateUserInfo.update(data, userToken);
+      if (updateUserInfoData) {
+        handleNotification(updateUserInfoData.statusMessage);
+        setUserInfoData(updateUserInfoData.userInfo);
       }
     }
-    // updatedForm(true);
+    updatedForm(true);
   };
 
   return (
@@ -64,7 +50,7 @@ export const NewsFormik = (props: IUserNewsFormikProps) => {
       initialValues={initialValues}
       enableReinitialize
       validate={(values) => {
-        const errors: Partial<IUserNews> = {};
+        const errors: Partial<IUserInfoFormValues> = {};
         // if (!values.email) {
         //   errors.email = 'Povinné pole';
         // } else if (
@@ -82,7 +68,7 @@ export const NewsFormik = (props: IUserNewsFormikProps) => {
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           setSubmitting(false);
-          handleSubmitUserNewsData(values);
+          handleSubmitUserInfoData(values);
         }, 500);
       }}
     >
@@ -93,22 +79,34 @@ export const NewsFormik = (props: IUserNewsFormikProps) => {
             variant="outlined"
             margin="normal"
             fullWidth
-            id="titleNews"
-            label="Nadpis příspěvku"
-            name="titleNews"
+            id="firstName"
+            label="Jméno"
+            name="firstName"
             autoComplete="off"
           />
+          <br />
           <Field
             component={TextField}
             variant="outlined"
             margin="normal"
             fullWidth
-            id="newsDescription"
-            label="Obsah příspěvku"
-            name="newsDescription"
+            name="lastName"
+            label="Příjmení"
+            id="lastName"
             autoComplete="off"
           />
-
+          <br />
+          <Field
+            component={TextField}
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            name="age"
+            label="Věk"
+            type="number"
+            id="age"
+            autoComplete="off"
+          />
           {isSubmitting && <LinearProgress />}
           <SubmitButon
             type="submit"
@@ -118,7 +116,7 @@ export const NewsFormik = (props: IUserNewsFormikProps) => {
             disabled={isSubmitting}
             onClick={submitForm}
           >
-            Přidat
+            Uložit
           </SubmitButon>
         </StyledForm>
       )}

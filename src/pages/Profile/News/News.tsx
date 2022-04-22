@@ -12,7 +12,7 @@ import {
   styled,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { NewsFormik, RootContainer } from "../../../components";
+import { NewsForm, RootContainer } from "../../../components";
 import Cookies from "js-cookie";
 import { getUserInfo, getUsersNews } from "../../../services";
 import { IUserNews } from "../../../types";
@@ -126,7 +126,7 @@ export const News: VFC = () => {
       <Typography variant="h4" align="center" color="textPrimary">
         Příspěvky
       </Typography>
-      <NewsFormik
+      <NewsForm
         formValues={{}}
         userToken={token}
         handleChange={() => handleForm()}

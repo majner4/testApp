@@ -14,10 +14,10 @@ import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useState, VFC } from "react";
 import {
-  NewsFormik,
+  NewsForm,
   ProfileAvatar,
   RootContainer,
-  UserInfoFormik,
+  UserInfoForm,
 } from "../../../components";
 import {
   updateProfileImage,
@@ -110,9 +110,9 @@ export const UserInfo: VFC = () => {
     );
   };
 
-  const renderUserFormik = () => {
+  const renderUserForm = () => {
     return (
-      <UserInfoFormik
+      <UserInfoForm
         formValues={infoData}
         userToken={token}
         updatedForm={(updated) => setUpdateForm(!updated)}
@@ -200,13 +200,11 @@ export const UserInfo: VFC = () => {
       <Typography variant="h4" align="center" color="textPrimary">
         Osobní informace
       </Typography>
-      {infoData?.firstName && !updateForm
-        ? renderUserData()
-        : renderUserFormik()}
+      {infoData?.firstName && !updateForm ? renderUserData() : renderUserForm()}
       <Typography variant="h4" align="center" color="textPrimary">
         Moje příspěvky
       </Typography>
-      <NewsFormik
+      <NewsForm
         formValues={{}}
         userToken={token}
         handleChange={() => handleForm()}
