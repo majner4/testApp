@@ -1,16 +1,16 @@
-import {
-  FormControl,
-  LinearProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { LinearProgress, TextField, Typography } from "@mui/material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { Link, useNavigate } from "react-router-dom";
 import { PersonAdd } from "@mui/icons-material";
 import { IRegisterFormValues } from "../../../types";
 import { createUser, loginUser, IFUser } from "../../../services";
-import { StyledAvatar, StyledSignForm, SubmitButon } from "../../../components";
+import {
+  StyledAvatar,
+  StyledFormControl,
+  StyledSignForm,
+  SubmitButon,
+} from "../../../components";
 import { VFC } from "react";
 import {
   Controller,
@@ -75,7 +75,7 @@ export const RegisterForm: VFC = () => {
           }}
           defaultValue={formIntialValues.email}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Zadejte email"
@@ -93,7 +93,7 @@ export const RegisterForm: VFC = () => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
         <Controller
@@ -104,7 +104,7 @@ export const RegisterForm: VFC = () => {
           }}
           defaultValue={formIntialValues.password}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Zadejte heslo"
@@ -123,7 +123,7 @@ export const RegisterForm: VFC = () => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
         <Controller
@@ -140,7 +140,7 @@ export const RegisterForm: VFC = () => {
           }}
           defaultValue={formIntialValues.confirmPassword}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Heslo znovu"
@@ -159,7 +159,7 @@ export const RegisterForm: VFC = () => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
         {isSubmitting && <LinearProgress />}

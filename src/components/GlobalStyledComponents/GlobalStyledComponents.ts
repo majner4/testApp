@@ -1,4 +1,4 @@
-import { Avatar, Button, styled } from "@mui/material";
+import { Avatar, Button, FormControl, styled } from "@mui/material";
 
 const RootContainer = styled("div")(({ theme }) => ({
   margin: theme.spacing(8, 4),
@@ -38,6 +38,10 @@ const StyledAvatar = styled(Avatar)(({ theme }) => ({
   background: theme.palette.primary.main,
 }));
 
+const StyledFormControl = styled(FormControl)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
+
 const StyledForm = styled("form")(({ theme }) => ({
   maxWidth: "500px",
   marginTop: theme.spacing(1),
@@ -53,6 +57,7 @@ const SubmitButon = styled(Button)(({ theme }) => ({
 
 export {
   StyledForm,
+  StyledFormControl,
   SubmitButon,
   RootContainer,
   FormWrapper,

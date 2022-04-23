@@ -1,4 +1,4 @@
-import { FormControl, LinearProgress, TextField } from "@mui/material";
+import { LinearProgress, TextField } from "@mui/material";
 import { VFC } from "react";
 import {
   Controller,
@@ -10,7 +10,11 @@ import { useUserInfo } from "../../../hooks";
 import { createUserNews, updateUserNews } from "../../../services";
 import { IUserNews, IAlert } from "../../../types";
 import { getValidationMessage } from "../../../utils";
-import { StyledForm, SubmitButon } from "../../GlobalStyledComponents";
+import {
+  StyledForm,
+  StyledFormControl,
+  SubmitButon,
+} from "../../GlobalStyledComponents";
 
 interface IUserNewsFormProps {
   userToken?: string | null;
@@ -88,7 +92,7 @@ export const NewsForm: VFC<IUserNewsFormProps> = (props) => {
           }}
           defaultValue={initialValues.newsDescription}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Nadpis příspěvku"
@@ -104,7 +108,7 @@ export const NewsForm: VFC<IUserNewsFormProps> = (props) => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
         <Controller
@@ -114,7 +118,7 @@ export const NewsForm: VFC<IUserNewsFormProps> = (props) => {
           }}
           defaultValue={initialValues.titleNews}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Obsah příspěvku"
@@ -130,7 +134,7 @@ export const NewsForm: VFC<IUserNewsFormProps> = (props) => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
 

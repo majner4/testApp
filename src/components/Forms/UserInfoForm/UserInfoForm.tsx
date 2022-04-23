@@ -1,4 +1,5 @@
-import { FormControl, LinearProgress, TextField } from "@mui/material";
+import { LinearProgress, TextField } from "@mui/material";
+import { VFC } from "react";
 import {
   Controller,
   FormProvider,
@@ -9,7 +10,11 @@ import { useUserInfo } from "../../../hooks";
 import { createUserInfo, updateUserInfo } from "../../../services";
 import { IUserInfoFormValues, IAlert } from "../../../types";
 import { getValidationMessage } from "../../../utils";
-import { StyledForm, SubmitButon } from "../../GlobalStyledComponents";
+import {
+  StyledForm,
+  StyledFormControl,
+  SubmitButon,
+} from "../../GlobalStyledComponents";
 
 interface IUserInfoFormProps {
   userToken?: string | null;
@@ -18,7 +23,7 @@ interface IUserInfoFormProps {
   handleNotification: (alert: IAlert) => void;
 }
 
-export const UserInfoForm = (props: IUserInfoFormProps) => {
+export const UserInfoForm: VFC<IUserInfoFormProps> = (props) => {
   const { userToken, formValues, updatedForm, handleNotification } = props;
   const {
     context: { userInfoData },
@@ -64,7 +69,7 @@ export const UserInfoForm = (props: IUserInfoFormProps) => {
           }}
           defaultValue={formValues?.firstName}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Jméno"
@@ -80,7 +85,7 @@ export const UserInfoForm = (props: IUserInfoFormProps) => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
 
@@ -91,7 +96,7 @@ export const UserInfoForm = (props: IUserInfoFormProps) => {
           }}
           defaultValue={formValues?.lastName}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Příjmení"
@@ -107,7 +112,7 @@ export const UserInfoForm = (props: IUserInfoFormProps) => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
 
@@ -118,7 +123,7 @@ export const UserInfoForm = (props: IUserInfoFormProps) => {
           }}
           defaultValue={formValues?.age}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Věk"
@@ -134,7 +139,7 @@ export const UserInfoForm = (props: IUserInfoFormProps) => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
         {isSubmitting && <LinearProgress />}

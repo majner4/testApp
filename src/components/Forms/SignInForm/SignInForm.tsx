@@ -1,9 +1,4 @@
-import {
-  Typography,
-  LinearProgress,
-  FormControl,
-  TextField,
-} from "@mui/material";
+import { Typography, LinearProgress, TextField } from "@mui/material";
 import { AccountBox } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
@@ -12,6 +7,7 @@ import { ILoginFormValues } from "../../../types";
 import { loginUser, IFUser } from "../../../services";
 import {
   StyledAvatar,
+  StyledFormControl,
   StyledSignForm,
   SubmitButon,
 } from "../../GlobalStyledComponents";
@@ -71,7 +67,7 @@ export const SignInForm: VFC = () => {
           }}
           defaultValue={formIntialValues.email}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Zadejte email"
@@ -89,7 +85,7 @@ export const SignInForm: VFC = () => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
         <Controller
@@ -100,7 +96,7 @@ export const SignInForm: VFC = () => {
           }}
           defaultValue={formIntialValues.password}
           render={({ field, fieldState }) => (
-            <FormControl fullWidth>
+            <StyledFormControl fullWidth>
               <TextField
                 fullWidth
                 label="Zadejte heslo"
@@ -119,7 +115,7 @@ export const SignInForm: VFC = () => {
                 autoComplete="off"
                 {...field}
               />
-            </FormControl>
+            </StyledFormControl>
           )}
         />
         {isSubmitting && <LinearProgress />}

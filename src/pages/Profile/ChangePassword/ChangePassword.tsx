@@ -1,14 +1,14 @@
 import { useCallback, useEffect, VFC } from "react";
-import {
-  FormControl,
-  LinearProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { LinearProgress, TextField, Typography } from "@mui/material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { getUserDataByToken, updatePassword } from "../../../services";
-import { RootContainer, StyledForm, SubmitButon } from "../../../components";
+import {
+  RootContainer,
+  StyledForm,
+  StyledFormControl,
+  SubmitButon,
+} from "../../../components";
 import { useUserData } from "../../../hooks";
 import {
   Controller,
@@ -82,7 +82,7 @@ export const ChangePassword: VFC = () => {
               required: true,
             }}
             render={({ field, fieldState }) => (
-              <FormControl fullWidth>
+              <StyledFormControl fullWidth>
                 <TextField
                   fullWidth
                   label="Původní heslo"
@@ -99,7 +99,7 @@ export const ChangePassword: VFC = () => {
                   autoComplete="off"
                   {...field}
                 />
-              </FormControl>
+              </StyledFormControl>
             )}
           />
           <Controller
@@ -109,7 +109,7 @@ export const ChangePassword: VFC = () => {
               minLength: 8,
             }}
             render={({ field, fieldState }) => (
-              <FormControl fullWidth>
+              <StyledFormControl fullWidth>
                 <TextField
                   fullWidth
                   label="Nové heslo"
@@ -128,7 +128,7 @@ export const ChangePassword: VFC = () => {
                   autoComplete="off"
                   {...field}
                 />
-              </FormControl>
+              </StyledFormControl>
             )}
           />
           <Controller
@@ -143,7 +143,7 @@ export const ChangePassword: VFC = () => {
               },
             }}
             render={({ field, fieldState }) => (
-              <FormControl fullWidth>
+              <StyledFormControl fullWidth>
                 <TextField
                   fullWidth
                   label="Nové heslo znovu"
@@ -166,7 +166,7 @@ export const ChangePassword: VFC = () => {
                   autoComplete="off"
                   {...field}
                 />
-              </FormControl>
+              </StyledFormControl>
             )}
           />
           {isSubmitting && <LinearProgress />}
