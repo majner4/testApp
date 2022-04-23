@@ -1,5 +1,4 @@
 import { Avatar, Button, styled } from "@mui/material";
-import { Form } from "formik";
 
 const RootContainer = styled("div")(({ theme }) => ({
   margin: theme.spacing(8, 4),
@@ -39,13 +38,13 @@ const StyledAvatar = styled(Avatar)(({ theme }) => ({
   background: theme.palette.primary.main,
 }));
 
-const StyledForm = styled(Form)(({ theme }) => ({
+const StyledForm = styled("form")(({ theme }) => ({
   maxWidth: "500px",
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(3),
   padding: theme.spacing(3),
   borderRadius: "20px",
-  boxShadow: "1px 1px 10px 0px rgba(220,220,220,0.4)",
+  boxShadow: "1px 1px 10px 0px rgba(220,220,220,0.8)",
 }));
 
 const SubmitButon = styled(Button)(({ theme }) => ({

@@ -1,44 +1,60 @@
-import { LinearProgress } from "@mui/material";
-import { Formik, Field } from "formik";
-import { TextField } from "formik-material-ui";
+import { FormControl, LinearProgress, TextField } from "@mui/material";
+import { VFC } from "react";
+import {
+  Controller,
+  FormProvider,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { useUserInfo } from "../../../hooks";
 import { createUserNews, updateUserNews } from "../../../services";
 import { IUserNews, IAlert } from "../../../types";
+import { getValidationMessage } from "../../../utils";
 import { StyledForm, SubmitButon } from "../../GlobalStyledComponents";
 
 interface IUserNewsFormProps {
   userToken?: string | null;
-  formValues?: IUserNews | undefined;
   handleNotification: (alert: IAlert) => void;
   handleChange: () => void;
 }
 
-export const NewsForm = (props: IUserNewsFormProps) => {
-  const { userToken, formValues, handleNotification, handleChange } = props;
+interface IUserNewsValues {
+  newsDescription: string;
+  titleNews: string;
+}
+
+const initialValues: IUserNewsValues = {
+  newsDescription: "",
+  titleNews: "",
+};
+
+export const NewsForm: VFC<IUserNewsFormProps> = (props) => {
+  const { userToken, handleNotification, handleChange } = props;
   const {
     context: { userInfoData },
   } = useUserInfo();
   const { infoData } = userInfoData;
+
+  const methods = useForm<IUserNewsValues>({
+    reValidateMode: "onChange",
+    mode: "all",
+  });
+  const { formState } = methods;
+  const { isValid, isSubmitting } = formState;
 
   /* const {
     context: { userNews },
   } = useUserNews();
   const { setNews, news } = userNews; */
 
-  const defaultValues = {
-    newsDescription: "",
-    titleNews: "",
-  };
-
-  const initialValues = formValues ?? defaultValues;
-  const handleSubmitUserNewsData = async (data: IUserNews) => {
+  const handleSubmitUserNewsData: SubmitHandler<IUserNews> = async (data) => {
     const currentData = {
       ...data,
       userId: infoData?.id,
       createdDateNews: new Date(),
       authorNews: infoData?.firstName + " " + infoData?.lastName,
     };
-    if (!formValues?.newsDescription && userToken) {
+    if (!initialValues?.newsDescription && userToken) {
       const createUserNewsData = await createUserNews.create(
         currentData,
         userToken
@@ -60,68 +76,75 @@ export const NewsForm = (props: IUserNewsFormProps) => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      enableReinitialize
-      validate={(values) => {
-        const errors: Partial<IUserNews> = {};
-        // if (!values.email) {
-        //   errors.email = 'Povinné pole';
-        // } else if (
-        //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-        // ) {
-        //   errors.email = 'Nevalidní emailová adresa';
-        // }
-        // if (!values.password) {
-        //   errors.password = 'Povinné pole';
-        // } else if(values.password.length < 8) {
-        //   errors.password = 'Heslo musí mít minimálně 8 znaků';
-        // }
-        return errors;
-      }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          handleSubmitUserNewsData(values);
-        }, 500);
-      }}
-    >
-      {({ submitForm, isSubmitting }) => (
-        <StyledForm>
-          <Field
-            component={TextField}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="titleNews"
-            label="Nadpis příspěvku"
-            name="titleNews"
-            autoComplete="off"
-          />
-          <Field
-            component={TextField}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="newsDescription"
-            label="Obsah příspěvku"
-            name="newsDescription"
-            autoComplete="off"
-          />
+    <FormProvider {...methods}>
+      <StyledForm
+        noValidate
+        onSubmit={methods.handleSubmit(handleSubmitUserNewsData)}
+      >
+        <Controller
+          name="titleNews"
+          rules={{
+            required: true,
+          }}
+          defaultValue={initialValues.newsDescription}
+          render={({ field, fieldState }) => (
+            <FormControl fullWidth>
+              <TextField
+                fullWidth
+                label="Nadpis příspěvku"
+                variant="outlined"
+                error={!!fieldState.error}
+                helperText={
+                  fieldState.error && (
+                    <div>{getValidationMessage(fieldState.error)}</div>
+                  )
+                }
+                required={true}
+                defaultValue={field.value as string}
+                autoComplete="off"
+                {...field}
+              />
+            </FormControl>
+          )}
+        />
+        <Controller
+          name="newsDescription"
+          rules={{
+            required: true,
+          }}
+          defaultValue={initialValues.titleNews}
+          render={({ field, fieldState }) => (
+            <FormControl fullWidth>
+              <TextField
+                fullWidth
+                label="Obsah příspěvku"
+                variant="outlined"
+                error={!!fieldState.error}
+                helperText={
+                  fieldState.error && (
+                    <div>{getValidationMessage(fieldState.error)}</div>
+                  )
+                }
+                required={true}
+                defaultValue={field.value as string}
+                autoComplete="off"
+                {...field}
+              />
+            </FormControl>
+          )}
+        />
 
-          {isSubmitting && <LinearProgress />}
-          <SubmitButon
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            disabled={isSubmitting}
-            onClick={submitForm}
-          >
-            Přidat
-          </SubmitButon>
-        </StyledForm>
-      )}
-    </Formik>
+        {isSubmitting && <LinearProgress />}
+        <SubmitButon
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          disabled={!isValid}
+        >
+          Přidat
+        </SubmitButon>
+      </StyledForm>
+    </FormProvider>
   );
 };

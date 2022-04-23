@@ -12,8 +12,6 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
     "express": "^4.17.3",
-    "formik": "^2.2.9",
-    "formik-material-ui": "^4.0.0-alpha.2",
     "http-proxy-middleware": "^1.0.6",
     "husky": "^7.0.4",
     "js-cookie": "^2.2.1",

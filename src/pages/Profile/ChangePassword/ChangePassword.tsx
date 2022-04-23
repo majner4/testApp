@@ -1,14 +1,24 @@
 import { useCallback, useEffect, VFC } from "react";
-import { LinearProgress, Typography } from "@mui/material";
-import { Formik, Field } from "formik";
-import { TextField } from "formik-material-ui";
+import {
+  FormControl,
+  LinearProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { getUserDataByToken, updatePassword } from "../../../services";
 import { RootContainer, StyledForm, SubmitButon } from "../../../components";
 import { useUserData } from "../../../hooks";
+import {
+  Controller,
+  FormProvider,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
+import { getValidationMessage } from "../../../utils";
 
-interface IChangePassword {
+interface IChangePasswordValues {
   oldPassword: string;
   newPassword: string;
   confirmNewPassword: string;
@@ -21,9 +31,18 @@ export const ChangePassword: VFC = () => {
   } = useUserData();
   const { setUserData } = userData;
 
+  const methods = useForm<IChangePasswordValues>({
+    reValidateMode: "onChange",
+    mode: "all",
+  });
+  const { formState, getValues } = methods;
+  const { isValid, isSubmitting } = formState;
+
   const token = Cookies.get("token");
 
-  const handleChangePassword = async (data: IChangePassword) => {
+  const handleChangePassword: SubmitHandler<IChangePasswordValues> = async (
+    data
+  ) => {
     if (token) {
       const updatedPassword = await updatePassword.update(data, token);
       const notification = updatedPassword.statusMessage;
@@ -52,90 +71,116 @@ export const ChangePassword: VFC = () => {
       <Typography variant="h4" align="center" color="textPrimary">
         Změna hesla
       </Typography>
-      <Formik
-        initialValues={{
-          oldPassword: "",
-          newPassword: "",
-          confirmNewPassword: "",
-        }}
-        validate={(values) => {
-          const errors: Partial<IChangePassword> = {};
-          if (!values.oldPassword) {
-            errors.oldPassword = "Povinné pole";
-          }
-          if (!values.newPassword) {
-            errors.newPassword = "Povinné pole";
-          } else if (values.newPassword.length < 8) {
-            errors.newPassword = "Heslo musí mít minimálně 8 znaků";
-          }
-          if (!values.confirmNewPassword) {
-            errors.confirmNewPassword = "Povinné pole";
-          } else if (values.newPassword !== values.confirmNewPassword) {
-            errors.confirmNewPassword = "Hesla se musí shodovat";
-          }
-          return errors;
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            setSubmitting(false);
-            handleChangePassword(values);
-          }, 500);
-        }}
-      >
-        {({ submitForm, isSubmitting }) => (
-          <StyledForm>
-            <Field
-              component={TextField}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="oldPassword"
-              label="Staré heslo"
-              type="password"
-              id="oldPassword"
-              autoComplete="off"
-            />
-            <br />
-            <Field
-              component={TextField}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="newPassword"
-              label="Nové heslo"
-              type="password"
-              id="newPassword"
-              autoComplete="off"
-            />
-            <br />
-            <Field
-              component={TextField}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="confirmNewPassword"
-              label="Nové heslo znovu"
-              type="password"
-              id="confirmNewPassword"
-              autoComplete="off"
-            />
-            {isSubmitting && <LinearProgress />}
-            <SubmitButon
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              disabled={isSubmitting}
-              onClick={submitForm}
-            >
-              Změnit heslo
-            </SubmitButon>
-          </StyledForm>
-        )}
-      </Formik>
+      <FormProvider {...methods}>
+        <StyledForm
+          noValidate
+          onSubmit={methods.handleSubmit(handleChangePassword)}
+        >
+          <Controller
+            name="oldPassword"
+            rules={{
+              required: true,
+            }}
+            render={({ field, fieldState }) => (
+              <FormControl fullWidth>
+                <TextField
+                  fullWidth
+                  label="Původní heslo"
+                  type="password"
+                  variant="outlined"
+                  error={!!fieldState.error}
+                  helperText={
+                    fieldState.error && (
+                      <div>{getValidationMessage(fieldState.error)}</div>
+                    )
+                  }
+                  required={true}
+                  defaultValue={field.value as string}
+                  autoComplete="off"
+                  {...field}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name="newPassword"
+            rules={{
+              required: true,
+              minLength: 8,
+            }}
+            render={({ field, fieldState }) => (
+              <FormControl fullWidth>
+                <TextField
+                  fullWidth
+                  label="Nové heslo"
+                  type="password"
+                  variant="outlined"
+                  error={!!fieldState.error}
+                  helperText={
+                    fieldState.error && (
+                      <div>
+                        {getValidationMessage(fieldState.error, "hesla", 8)}
+                      </div>
+                    )
+                  }
+                  required={true}
+                  defaultValue={field.value as string}
+                  autoComplete="off"
+                  {...field}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name="confirmNewPassword"
+            rules={{
+              required: true,
+              validate: (currentValue: string) => {
+                if (currentValue !== getValues("newPassword")) {
+                  return "Hesla se musí shodovat";
+                }
+                return true;
+              },
+            }}
+            render={({ field, fieldState }) => (
+              <FormControl fullWidth>
+                <TextField
+                  fullWidth
+                  label="Nové heslo znovu"
+                  type="password"
+                  variant="outlined"
+                  error={!!fieldState.error}
+                  helperText={
+                    fieldState.error && (
+                      <div>
+                        {getValidationMessage(
+                          fieldState.error,
+                          undefined,
+                          undefined
+                        )}
+                      </div>
+                    )
+                  }
+                  required={true}
+                  defaultValue={field.value as string}
+                  autoComplete="off"
+                  {...field}
+                />
+              </FormControl>
+            )}
+          />
+          {isSubmitting && <LinearProgress />}
+          <SubmitButon
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            disabled={!isValid}
+          >
+            Změnit heslo
+          </SubmitButon>
+        </StyledForm>
+      </FormProvider>
     </RootContainer>
   );
 };

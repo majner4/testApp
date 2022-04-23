@@ -37,7 +37,7 @@ export const RegisterForm: VFC = () => {
     mode: "all",
   });
 
-  const { formState } = methods;
+  const { formState, getValues } = methods;
   const { isValid, isSubmitting } = formState;
 
   const hanleRegister: SubmitHandler<IFUser> = async (data) => {
@@ -131,6 +131,12 @@ export const RegisterForm: VFC = () => {
           rules={{
             required: true,
             minLength: 8,
+            validate: (currentValue: string) => {
+              if (currentValue !== getValues("password")) {
+                return "Hesla se musí shodovat";
+              }
+              return true;
+            },
           }}
           defaultValue={formIntialValues.confirmPassword}
           render={({ field, fieldState }) => (

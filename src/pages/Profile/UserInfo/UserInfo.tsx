@@ -205,7 +205,6 @@ export const UserInfo: VFC = () => {
         Moje příspěvky
       </Typography>
       <NewsForm
-        formValues={{}}
         userToken={token}
         handleChange={() => handleForm()}
         handleNotification={(notification) =>
